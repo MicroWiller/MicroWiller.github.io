@@ -6,7 +6,7 @@
   <link href="https://microwiller.github.io/atom.xml" rel="self"/>
   
   <link href="https://microwiller.github.io/"/>
-  <updated>2022-05-22T14:04:26.071Z</updated>
+  <updated>2022-05-22T14:09:52.021Z</updated>
   <id>https://microwiller.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>redis</title>
+    <link href="https://microwiller.github.io/2022/05/22/redis/"/>
+    <id>https://microwiller.github.io/2022/05/22/redis/</id>
+    <published>2022-05-22T14:07:37.000Z</published>
+    <updated>2022-05-22T14:09:52.021Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;部署运维&quot;&gt;&lt;a href=&quot;#部署运维&quot; class=&quot;headerlink&quot; title=&quot;部署运维&quot;&gt;&lt;/a&gt;部署运维&lt;/h2&gt;&lt;pre class=&quot;line-numbers language-bash&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="redis" scheme="https://microwiller.github.io/categories/redis/"/>
+    
+    
+    <category term="note" scheme="https://microwiller.github.io/tags/note/"/>
+    
+    <category term="redis" scheme="https://microwiller.github.io/tags/redis/"/>
+    
+  </entry>
   
   <entry>
     <title>go</title>
