@@ -563,6 +563,1010 @@
 <li>对一个指令末尾的“&amp;”翻译为将程序转到后台执行</li>
 </ul>
 <p>参考： <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/35382632">Shell 是用来解决什么问题的</a> </p>
+<h2 id="注释模板"><a href="#注释模板" class="headerlink" title="注释模板"></a>注释模板</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># shebang
+# 脚本的参数
+# 脚本的用途
+# 脚本的注意事项
+# 脚本的写作时间，作者，版权等
+# 各个函数前的说明注释
+# 一些较复杂的单行命令注释<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 配置环境变量
+vim /etc/profile
+
+# 最后行添加路径
+export PATH=$PATH:/home/mysql/bin
+
+# 生效
+source /etc/profile
+
+# 显示当前系统定义的所有环境变量
+export
+
+# 输出当前的PATH环境变量的值
+echo $PATH <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 查看当前的进程的网络
+# 可以使用 "ss" (socket statistics) 来替代 netstat
+netstat -an | grep 进程号
+
+# 查看当前进程号对应的 PID
+lsof -i :进程号
+
+kill -9 PID<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># sha1 文件校验
+sha1sum 文件名<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 在 “文件夹范围内” 两天内修改的文件/文件夹
+find 范围 -mtime -2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/636f38bb6e0bdad6b846103e.html">Linux-文件搜索命令find的使用</a>	</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 开机自启 
+/sbin/chkconfig --add server_name
+
+# 自定义开机文件
+cd /etc/systemd/system<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 打印出CPU占用过高进程的线程栈
+jstack PID
+
+# 查看某个进程中的 "线程状态"
+top -H -p pid
+
+# 或者也可以采用ps命令，来查看繁忙的线程信息
+ps -mp pid -o THREAD,tid,time 
+ps -Lfp pid <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 停止firewall
+systemctl stop firewalld.service
+# 禁止firewall开机启动
+systemctl disable firewalld.service 
+
+# 关闭 selinux
+vim /etc/selinux/config<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 修改网络
+vim /etc/sysconfig/network-scripts/ifcfg-enp0s3
+# centos6的网卡重启方法：
+service network restart
+# centos7的网卡重启方法：
+systemctl restart network<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 查看 "内存" 包括物理内存和虚拟内存swap
+free -h
+
+# 查看 "磁盘" 的使用量
+df -h
+
+# fdisk创建和维护分区表的程序
+fdisk -l 
+
+# 设置分区
+fdisk /dev/sdb
+
+# 查看sdb的分区情况
+lsblk /dev/sdb
+
+# make file system, 在特定的分区上建立 linux 文件系统,
+mkfs -t ext4 /dev/sdb1
+
+# 挂载新磁盘
+mount /dev/sdb1  /mnt/newdisk
+
+# 永久挂载
+vim /etc/fstab
+/dev/sda1	/dragonball		ext4	defaults	0 0
+
+
+hdparm -i /dev/sda1
+hdparm -i /dev/sdb1 |grep -i serialno
+# SerialNo=Z1Z0MKWS 硬盘序列号<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://www.linuxprobe.com/mount-detail-parameters.html">mount命令</a>	</p>
+<p><a target="_blank" rel="noopener" href="https://snapshooter.io/blog/how-to-grow-an-ext234-file-system-with-resize2fs-">How to grow file system</a>: 除了主分区外</p>
+<p><a target="_blank" rel="noopener" href="https://linuxconfig.org/how-to-resize-ext4-root-partition-live-without-umount">Resize Root Partition in Linux</a>	</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenmh/p/5096592.html">使用fdisk扩容分区</a>	</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># "xargs" 读取输入源，然后逐行处理
+# 删除目录中的所有class文件: 
+find . | grep .class$ | xargs rm -rvf
+
+#把所有的rmvb文件拷贝到目录
+ls *.rmvb | xargs -n1 -i cp {} /mount/xiaodianying<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// 修改sshd
+vim /etc/ssh/sshd_config
+# 打开权限：
+# PermitRootLogin yes
+# PubkeyAuthentication yes
+# PasswordAuthentication yes
+
+systemctl restart sshd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#修改防火墙： /etc/sysconfig/iptables文件
+
+# 查看自己目前的防火墙端口情况：
+iptables -L -n
+
+1、停止并屏蔽firewalld服务
+systemctl stop firewalld
+systemctl mask firewalld
+
+2、安装iptables-services软件包
+yum install iptables-services
+
+3、在引导时启用iptables服务
+systemctl enable iptables
+
+4、启动iptables服务
+systemctl start iptables
+
+5、保存防火墙规则
+service iptables save
+# or
+/usr/libexec/iptables/iptables.init save
+
+6、附加：停止、启动，重启防火墙
+systemctl [stop|start|restart] iptables
+
+
+# 不出意外执行完这些操作之后，你应该就能轻松的发现这个文件了
+# 现在接着修改/etc/sysconfig/iptables文件
+vim /etc/sysconfig/iptables<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h2 id="查看系统命令"><a href="#查看系统命令" class="headerlink" title="查看系统命令"></a>查看系统命令</h2><p>整机：</p>
+<ul>
+<li>top </li>
+<li>uptime，系统性能命令的精简版</li>
+</ul>
+<p>CPU：</p>
+<ul>
+<li><p>vmstat -n 2 3    每两秒采样一次，共计采样三次</p>
+<ul>
+<li><p>procs：</p>
+<ul>
+<li>r：<code>运行/等待CPU时间片的进程数</code>，原则上1核的CPU运行队列不要超过2，整个系统的运行队列不能超过 2*总核数</li>
+</ul>
+</li>
+<li><p>b：<code>等待资源的进程数</code>，比如正在等待磁盘I/O 、网络I/O等</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="高效命令"><a href="#高效命令" class="headerlink" title="高效命令"></a>高效命令</h2><ul>
+<li>如果你想要有语法高亮的 <code>cat</code>，可以试试 <strong><a target="_blank" rel="noopener" href="https://github.com/jingweno/ccat">ccat</a></strong> 命令。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/ogham/exa">exa</a></strong> 增强了 <code>ls</code> 命令，如果你需要在很多目录上浏览各种文件 ，**<a target="_blank" rel="noopener" href="https://github.com/ranger/ranger">ranger</a>** 命令可以比 <code>cd</code> 和 <code>cat</code> 更有效率，甚至可以在你的终端预览图片。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/sharkdp/fd">fd</a></strong> 是一个比 <code>find</code> 更简单更快的命令，他还会自动地忽略掉一些你配置在 <code>.gitignore</code> 中的文件，以及 <code>.git</code> 下的文件。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/junegunn/fzf">fzf</a></strong> 会是一个很好用的文件搜索神器，其主要是搜索当前目录以下的文件，还可以使用 <code>fzf --preview 'cat {}'</code>边搜索文件边浏览内容。</li>
+<li><code>grep</code> 是一个上古神器，然而，**<a target="_blank" rel="noopener" href="https://beyondgrep.com/">ack</a><strong>、</strong><a target="_blank" rel="noopener" href="https://github.com/ggreer/the_silver_searcher">ag</a>** 和 <strong><a target="_blank" rel="noopener" href="https://github.com/BurntSushi/ripgrep">rg</a></strong> 是更好的grep，和上面的 <code>fd</code>一样，在递归目录匹配的时候，会使用你配置在 <code>.gitignore</code> 中的规则。</li>
+<li><code>rm</code> 是一个危险的命令，尤其是各种 <code>rm -rf …</code>，所以，**<a target="_blank" rel="noopener" href="https://github.com/andreafrancia/trash-cli/">trash</a>** 是一个更好的删除命令。</li>
+<li><code>man</code> 命令是好读文档的命令，但是man的文档有时候太长了，所以，你可以试试 <strong><a target="_blank" rel="noopener" href="https://github.com/tldr-pages/tldr">tldr</a></strong> 命令，把文档上的一些示例整出来给你看。</li>
+<li>如果你想要一个图示化的<code>ping</code>，你可以试试 <strong><a target="_blank" rel="noopener" href="https://github.com/denilsonsa/prettyping">prettyping</a></strong> 。</li>
+<li>如果你想搜索以前打过的命令，不要再用 Ctrl +R 了，你可以使用加强版的 <strong><a target="_blank" rel="noopener" href="https://github.com/dvorka/hstr">hstr</a></strong> 。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://hisham.hm/htop/">htop</a></strong> 是 top 的一个加强版。然而，还有很多的各式各样的top，比如：用于看IO负载的 **<a target="_blank" rel="noopener" href="http://guichaz.free.fr/iotop/">iotop</a>**，网络负载的 <strong><a target="_blank" rel="noopener" href="http://www.ex-parrot.com/~pdw/iftop/">iftop</a></strong>, 以及把这些top都集成在一起的 **<a target="_blank" rel="noopener" href="https://github.com/Atoptool/atop">atop</a>**。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://dev.yorhel.nl/ncdu">ncdu</a></strong> 比 du 好用多了。另一个选择是 <a target="_blank" rel="noopener" href="https://github.com/jarun/nnn">nnn</a>。</li>
+<li>如果你想把你的命令行操作录制成一个 SVG 动图，那么你可以尝试使用 <strong><a target="_blank" rel="noopener" href="https://asciinema.org/">asciinema</a></strong> 和 <strong><a target="_blank" rel="noopener" href="https://github.com/marionebl/svg-term-cli">svg-trem</a></strong> 。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/jakubroztocil/httpie">httpie</a></strong> 是一个可以用来替代 <code>curl</code> 和 <code>wget</code> 的 http 客户端，<code>httpie</code> 支持 json 和语法高亮，可以使用简单的语法进行 http 访问: <code>http -v github.com</code>。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/tmux/tmux">tmux</a></strong> 在需要经常登录远程服务器工作的时候会很有用，可以保持远程登录的会话，还可以在一个窗口中查看多个 shell 的状态。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/Russell91/sshrc">sshrc</a></strong> 是个神器，在你登录远程服务器的时候也能使用本机的 shell 的 rc 文件中的配置。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/allinurl/goaccess">goaccess</a></strong> 这个是一个轻量级的分析统计日志文件的工具，主要是分析各种各样的 access log。</li>
+</ul>
+<p>参考:<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102176365?utm_oi=1129729846456283136">shell基本语法</a> </p>
+<h2 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h2><ul>
+<li><p><code>u</code> 撤销当前操作</p>
+</li>
+<li><p><code>.</code> 重复上一次的命令</p>
+</li>
+<li><p><code>N+命令</code>重复某个命令 N 次</p>
+</li>
+</ul>
+<p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6934580280627822599#heading-2">vim高级使用</a> </p>
+<h2 id="read"><a href="#read" class="headerlink" title="read"></a>read</h2><p>请求输入， <code>read</code> 命令读取到的文本会立即被存储在一个变量里。</p>
+<p><code>read.sh</code> </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+read name
+
+echo "hello $name !"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>执行 <code>./read.sh</code> 时，会发现光标处于接收输入的状态，此时输入一个字符串 <code>will</code> 按下回车键后，控制台会打印出 <code>hello will</code> </p>
+<h3 id="同时给几个变量赋值"><a href="#同时给几个变量赋值" class="headerlink" title="同时给几个变量赋值"></a>同时给几个变量赋值</h3><p>可以用 <code>read</code> 命令一次性给多个变量赋值， <code>read</code> 命令一个单词一个单词（空格分开）地读取你输入的参数，并且把每个参数赋值给对应的变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+read oneName towName
+
+echo "hello $oneName $towName !"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="显示提示信息"><a href="#显示提示信息" class="headerlink" title="显示提示信息"></a>显示提示信息</h3><p><code>read</code> 命令的 <code>-p</code> 参数， <code>p</code> 是 <code>prompt</code> 的首字母，表示“提示”。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+read -p "请输入您的姓名：" name
+
+echo "hello $name !"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 换行
+read -p $'please input file.csv (need format is CSV UTF-8) \x0a' file_name<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="限制字符数目"><a href="#限制字符数目" class="headerlink" title="限制字符数目"></a>限制字符数目</h3><p>用 <code>-n</code> 参数可以限制用户输入的字符串的最大长度（字符数）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">read -p "请输入您的姓名：" -n 5 name<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h3 id="限制输入时间"><a href="#限制输入时间" class="headerlink" title="限制输入时间"></a>限制输入时间</h3><p>用 <code>-t</code> 参数可以限定用户的输入时间（单位：秒）超过这个时间，就不读取输入了。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">read -p "请输入您的姓名：" -n 5 -t 10 name<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h3 id="隐藏输入内容"><a href="#隐藏输入内容" class="headerlink" title="隐藏输入内容"></a>隐藏输入内容</h3><p>用 <code>-s</code> 参数可以隐藏输入内容，在用户输入密码时使用。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">read -p "请输入密码：" -s password<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><blockquote>
+<p> Shell 变量 分为<strong>系统变量</strong>和<strong>自定义变量</strong> </p>
+<ul>
+<li>系统变量有$HOME、$PWD、$USER等</li>
+</ul>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">set 
+# 显示当前shell所有变量<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="设置普通变量"><a href="#设置普通变量" class="headerlink" title="设置普通变量"></a>设置普通变量</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 等号两侧不能有空格，变量名一般习惯用大写
+# 变量名=变量值
+WILL=14
+
+# 删除变量
+unset WILL
+
+# 声明静态变量，静态变量不能unset
+readonly WILL
+
+# 使用变量
+echo $WILL<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-comm-declare.html">还有declare命令</a> </p>
+<h3 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">vim /etc/profile
+
+# export 变量名=变量值，将 Shell 变量输出为环境变量
+export JAVA_HOME=/usr/jdk1.8
+
+# source 配置文件路径，让修改后的配置信息立即生效
+source /etc/profile
+
+# echo $变量名，检查环境变量是否生效
+echo $JAVA_HOME<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="位置参数变量"><a href="#位置参数变量" class="headerlink" title="位置参数变量"></a><strong>位置参数变量</strong></h3><ul>
+<li>$n ：$0 代表命令本身、$1-$9 代表第1到9个参数，10以上参数用花括号，如 ${10}。</li>
+<li>$* ：命令行中所有参数，且把所有参数<strong>看成一个整体</strong>。</li>
+<li>$@ ：命令行中所有参数，且把每个参数<strong>区分</strong>对待，for循环中常用。</li>
+<li>$# ：所有参数个数。</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">vim positionPara.sh
+
+#!/bin/bash     
+# 输出各个参数 
+echo $0 $1 $2 
+echo $* 
+echo $@ 
+echo 参数个数=$#<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sh positionPara.sh left right
+
+# 执行后的结果：
+positionPara.sh left right
+left right
+left right
+2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="错误号"><a href="#错误号" class="headerlink" title="错误号"></a>错误号</h3><p><code>$?</code> ： 在 Linux 下，所有的程序在结束时，都会有一个返回值，或者称为错误号 ( Error Number )</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ls *.sh
+# ......
+echo $?
+# 0: 只要返回值是 0，就代表程序执行成功了<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>应用：</strong> </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">echo "database backup result: $? (0:successfully ;1:unsuccessfully)"<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>给其中所有 markdown 文件最下方添加上一篇、下一篇、目录三个页脚链接，有的文章已经有了页脚，大部分都没有</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+filename=$1
+
+# 查看文件尾部是否包含关键词
+tail | grep '下一篇' $filename
+
+# grep 查找到匹配会返回 0，找不到则返回非 0 值
+[ $? -ne 0 ] &amp;&amp; { 添加页脚; }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 将上次命令执行是否成功的返回值放到提示符里面去
+will@localhost ~ $ export PS1="[\$?]${PS1}"
+[0]will@localhost ~ $<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>用perror查看错误提示</strong> </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">perror 2
+ OS error code   2:  No such file or directory<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="预定义变量"><a href="#预定义变量" class="headerlink" title="预定义变量"></a><strong>预定义变量</strong></h3><blockquote>
+<p> 在赋值定义之前，事先在 Shell 脚本中直接引用的变量 </p>
+</blockquote>
+<p>基本语法：</p>
+<ul>
+<li>$$ ：当前进程的 PID 进程号。</li>
+<li>$! ：后台运行的最后一个进程的 PID 进程号。 <code>!$</code>, 替换成上一次命令最后的路径</li>
+<li>$? ：最后一次执行的命令的返回状态，0为执行正确，非0执行失败。</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+echo 当前的进程号=$$
+
+# &amp;：后台的方式运行进程
+./ hello.sh &amp;
+
+echo 最后一个进程的进程号=$!
+echo 最后执行的命令结果=$?<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[root@izbp17osf716ivk4ilma92z test]# sh prePara.sh 
+当前的进程号=4781
+最后一个进程的进程号=4782
+最后执行的命令结果=0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 没有加可执行权限
+$ /usr/bin/script.sh
+zsh: permission denied: /usr/bin/script.sh
+
+$ chmod +x !$
+chmod +x /usr/bin/script.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="CDPATH"><a href="#CDPATH" class="headerlink" title="CDPATH"></a>CDPATH</h3><p><strong>在环境变量 <code>CDPATH</code> 中加入你常用的工作目录</strong>，当 <code>cd</code> 命令在当前目录中找不到你指定的文件/目录时，会自动到 <code>CDPATH</code> 中的目录中寻找。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ export CDPATH='~:/var/log'
+# cd 命令将会在 ～ 目录和 /var/log 目录扩展搜索
+
+$ pwd
+/home/will/musics
+
+$ cd mysql
+cd /var/log/mysql
+
+$ pwd
+/var/log/mysql
+
+$ cd my_pictures
+cd /home/will/my_pictures<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="双引号"><a href="#双引号" class="headerlink" title="双引号"></a>双引号</h2><p>使用”$”来获取变量的时候最好加上双引号，举一个例子： </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/sh
+#已知当前文件夹有一个a.sh的文件
+var="*.sh"
+echo $var
+echo "$var"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 运行结果如下：
+a.sh
+*.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p> 为啥会这样呢？其实可以解释为他执行了下面的命令： </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">echo *.sh
+echo "*.sh"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="大括号"><a href="#大括号" class="headerlink" title="大括号{}"></a>大括号{}</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ cp /very/long/path/file{,.bak}
+# 给 file 复制一个叫做 file.bak 的副本
+
+$ rm file{1,3,5}.txt
+# 删除 file1.txt file3.txt file5.txt
+
+$ mv *.{c,cpp} src/
+# 将所有 .c 和 .cpp 为后缀的文件移入 src 文件夹<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​	花括号中的每个字符都可以和之后（或之前）的字符串进行组合拼接，<strong>注意花括号和其中的逗号不可以用空格分隔，否则会被认为是普通的字符串对待</strong>。</p>
+<h2 id="参数规范"><a href="#参数规范" class="headerlink" title="参数规范"></a>参数规范</h2><blockquote>
+<p>当脚本需要接受参数的时候，一定要先判断参数是否合乎规范，并给出合适的回显，方便使用者了解参数的使用 </p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 判断参数的个数
+#!/bin/bash
+
+if [ $# != 2 ]
+then
+    echo "Parameter incorrect."
+    exit 1
+fi<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h2 id="命令替换"><a href="#命令替换" class="headerlink" title="命令替换"></a>命令替换</h2><p>获取某一段命令的执行结果，它的方式有两种：</p>
+<ul>
+<li><code>command</code></li>
+<li><code>$(command)</code></li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">all_files=`ls` # 获取ls命令的执行结果
+all_files=$(ls) # 效果同上<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这两种命令替换的方式都是等价的，可以任选其一使用。</p>
+<h3 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h3><p>获取系统的所有用户并输出：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+index=1
+
+for user in `cat /etc/passwd | cut -d ":" -f 1`
+do
+	# cat /etc/passwd 获取系统中的所有用户和密码
+	# cut -d ":" -f 1 根据冒号切每一行的字符串，获取切好后的第一部分
+	# 使用for循环进行遍历，并输出用户
+	echo "This is $index user: $user"
+	index=$(($index + 1))
+done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>获取今年已经过了多少天和周：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">echo "This year have passed $(date +%j) days"
+echo "This year have passed $(($(date +%j)/7)) weeks"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<p>注意： <code>$(())</code> 用于数学运算， <code>$()</code> 用于命令替换，这两个是平时使用中特别容易混淆的语法。</p>
+<h2 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h2><p><code>bash</code> 中的运算方式有以下几种：</p>
+<ul>
+<li><code>$((...))</code> 或 <code>$[...]</code> </li>
+<li><code>expr</code> </li>
+<li><code>let</code> </li>
+<li><code>bc</code> </li>
+<li><code>declare -i</code></li>
+</ul>
+<h3 id="…"><a href="#…" class="headerlink" title="$((…))"></a>$((…))</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">echo $((2 + 2)) # 加法
+echo $((5 / 2)) # 除法
+
+i=0
+echo $((i++)) # 先返回值后运算
+echo $((++i)) # 先运算后返回值
+
+echo $(( (2 + 3) * 4 )) # 圆括号改变运算顺序
+
+echo $((0xff)) # 16进制转成10进制的运算
+
+echo $((16&gt;&gt;2)) # 位运算
+
+echo $((3 &gt; 2)) # 逻辑运算，如果逻辑表达式为真，返回1，否则返回0
+
+
+a=0
+echo $((a&lt;1 ? 1 : 0)) # 三元运算符
+
+echo $((a=1)) # 变量赋值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意:  这个语法只能计算整数。</p>
+<h3 id="expr"><a href="#expr" class="headerlink" title="expr"></a>expr</h3><p>语法格式： <code>expr $num1 operator $num2</code></p>
+<p>操作符概览：</p>
+<ul>
+<li><code>num1 | num2</code> – <code>num1</code> 不为空且非0，返回 <code>num1</code> ; 否则返回 <code>num2</code> </li>
+<li><code>num1 &amp; num2</code> – <code>num1</code> 不为空且非0，返回 <code>num1</code> ；否则返回0</li>
+<li><code>num1 &lt; num2</code> – <code>num1</code> 小于 <code>num2</code> ，返回1；否则返回0</li>
+<li><code>num1 &lt;= num2</code> – <code>num1</code> 小于等于 num2 ，返回1；否则返回0</li>
+<li><code>num1 = num2</code> – <code>num1</code> 等于 <code>num2</code> ，返回1；否则返回0</li>
+<li><code>num1 != num2</code> – <code>num1</code> 不等于 <code>num2</code> ，返回1；否则返回0</li>
+<li><code>num1 &gt; num2</code> – <code>num1</code> 大于 <code>num2</code> ，返回1；否则返回0</li>
+<li><code>num1 &gt;= num2</code> – <code>num1</code>  大于等于 <code>num2</code> ，返回1；否则返回0</li>
+<li><code>num1 + num2</code> – 求和</li>
+<li><code>num1 - num2</code> – 求差</li>
+<li><code>num1 * num2</code> – 求积</li>
+<li><code>num1 / num2</code> – 求商</li>
+<li><code>num1 % num2</code> – 求余</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$num1=30; $num2=50
+expr $num1 \&gt; $num2 # 大于不成立，返回0
+expr $num1 \&lt; $num2 # 小于成立，返回1
+expr $num1 \| $num2 # 返回 num1
+expr $num1 \&amp; $num2 # 返回 num1
+expr $num1 + $num2 # 计算加法
+num3=`expr $num1 + $num2` # 计算结果赋值给num3
+expr $num1 - $num2 # 计算减法<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>[注意] <code>&gt;</code>、<code>&lt;</code> 等操作符是 <code>Shell</code> 中的保留关键字，因此需要进行转义。否则就变成输出和输入重定向了。</p>
+<h4 id="练习案例"><a href="#练习案例" class="headerlink" title="练习案例"></a>练习案例</h4><p>提示用户输入一个正整数 <code>num</code> ，然后计算从 <code>1+2+3</code> 加到给定正整数。 必须对给定的 <code>num</code> 值进行是否为正整数判断，如果不是正整数则重新输入。</p>
+<p>代码实现：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+while true # 无限循环接收用户输入
+do
+	read -p "pls input a positive number: " num # 接收到用户的输入，存为num值
+
+	expr $num + 1 2&gt;&amp;1 /dev/null # 对num进行加1的运算，运算结果重定向到/dev/null
+	
+      # 由于 expr 只能运算整数，如果运算浮点数的话会报错，$?获取的是表达式执行结果，并非运算结果
+      # 执行结果如果是正常的返回0
+	if [ $? -eq 0 ];then # $? 获取到上一次运算结果
+		if [ `expr $num \&gt; 0` -eq 1 ];then # 上面判断了是否为整数，这里判断是否为正整数
+    	# 类似JavaScript循环的写法遍历一个数值
+			for((i=1;i&lt;=$num;i++))
+			do
+				sum=`expr $sum + $i` # 获取运算结果总和
+			done	
+			echo "1+2+3+....+$num = $sum" # 输出运算结果
+			exit # 退出循环
+		fi
+	fi
+	echo "error,input enlegal" # 表示输入的值有误
+	continue # 如果输入有误继续循环让用户输入
+done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="let-命令"><a href="#let-命令" class="headerlink" title="let 命令"></a>let 命令</h3><p><code>let</code> 命令声明变量时，可以直接执行算术表达式</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">let "foo = 1 + 2"
+echo $foo # 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="bc"><a href="#bc" class="headerlink" title="bc"></a>bc</h3><p>支持浮点数运算</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">echo "scale=2;23/5" | bc # scale表示浮点位数
+num1=`echo "scale=2;23/5" | bc` # 运算结果保存为变量<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="declare-i-命令"><a href="#declare-i-命令" class="headerlink" title="declare -i 命令"></a>declare -i 命令</h3><p><code>-i</code> 参数声明整数变量以后，可以直接进行数学运算</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">declare -i val1=12 val2=5
+declare -i result
+result=val1*val2
+echo $result # 60<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="declare"><a href="#declare" class="headerlink" title="declare"></a>declare</h2><p><code>declare</code> 命令可以声明一些特殊类型的变量，为变量设置一些限制，比如声明只读类型的变量和整数类型的变量。</p>
+<h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">declare OPTION VARIABLE=value<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h3 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h3><ul>
+<li><code>-r</code> 将变量设为只读；</li>
+<li><code>-i</code> 将变量设为整数；</li>
+<li><code>-a</code> 将变量定义为数组；</li>
+<li><code>-f</code> 显示此脚本前定义过的所有函数及内容；</li>
+<li><code>-F</code> 仅显示此脚本前定义过的函数名；</li>
+<li><code>-x</code> 将变量声明为环境变量。</li>
+</ul>
+<p><code>declare</code>命令如果用在函数中，声明的变量只在函数内部有效，等同于<code>local</code>命令。</p>
+<p>不带任何参数时，<code>declare</code>命令输出当前环境的所有变量，包括函数在内，等同于不带有任何参数的<code>set</code>命令。</p>
+<h5 id="i"><a href="#i" class="headerlink" title="-i"></a><code>-i</code></h5><p><code>-i</code> 参数声明整数变量以后，可以直接进行数学运算。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">declare -i val1=12 val2=5
+declare -i result
+result=val1*val2
+echo $result # 60<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="x"><a href="#x" class="headerlink" title="-x"></a><code>-x</code></h5><p><code>-x</code> 参数等同于 <code>export</code> 命令，可以输出一个变量为子 <code>Shell</code> 的环境变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">declare -x foo=3 
+
+# 等同于
+export foo=3 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="r"><a href="#r" class="headerlink" title="-r"></a><code>-r</code></h5><p><code>-r</code> 参数可以声明只读变量，无法改变变量值，也不能 <code>unset</code> 变量。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">declare -r bar=1
+
+# 如果此时更改bar
+bar=2 # -bash: bar：只读变量<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="u"><a href="#u" class="headerlink" title="-u"></a><code>-u</code></h5><p><code>-u</code> 参数声明变量为大写字母，可以自动把变量值转成大写字母。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">declare -u foo
+foo=upper
+echo $foo # UPPER<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="l"><a href="#l" class="headerlink" title="-l"></a><code>-l</code></h5><p><code>-l</code> 参数声明变量为小写字母，可以自动把变量值转成小写字母。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">declare -l bar
+bar=LOWER
+echo $bar # lower<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="p"><a href="#p" class="headerlink" title="-p"></a><code>-p</code></h5><p><code>-p</code> 参数输出变量信息。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">foo=hello
+declare -p foo #控制台输出：declare -x foo="hello"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h3 id="定义数组"><a href="#定义数组" class="headerlink" title="定义数组"></a>定义数组</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">array=('v1' 'v2' 'v3') <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h3 id="输出数组内容"><a href="#输出数组内容" class="headerlink" title="输出数组内容"></a>输出数组内容</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">${array[@]} # 输出全部内容
+${array[*]} # 也是输出全部内容
+${array[1]} # 输出下标索引为1的内容<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="获取数组长度"><a href="#获取数组长度" class="headerlink" title="获取数组长度"></a>获取数组长度</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">${#array} # 数组内元素个数
+${#array[2]} # 数组内下标为2的元素长度<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="数组赋值"><a href="#数组赋值" class="headerlink" title="数组赋值"></a>数组赋值</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">array[0]="frank" # 给数组下标为1的元素赋值为frank
+array[20]="lion" # 在数组尾部添加一个新元素<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">unset array[2] # 清除元素
+unset array # 清空整个数组<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="数组遍历"><a href="#数组遍历" class="headerlink" title="数组遍历"></a>数组遍历</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">for v in ${array[@]}
+do
+done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+<h2 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">vim guessGame.sh
+
+#!/bin/bash
+
+echo '你猜的数字为：'$1
+
+if [ $1 -gt 7 ]
+then
+        echo '大于7'
+elif [ $1 -lt 4 ]
+then
+        echo '小于4'
+fi<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[ condition ] : 前后都要有空格，非空返回0，0为true，否则为false
+
+if [ : `if`距离条件方括号之间，需要有空格<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 是否存在文件/root/shell/isExist.txt 
+if [ -e /root/shell/isExist.txt ] 
+then
+     echo '存在' 
+fi  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">if [ $1 = 7 ] &amp;&amp; echo 'hello' || echo 'world' 
+then
+     echo '条件满足，执行后面的语句' 
+fi<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="case"><a href="#case" class="headerlink" title="case"></a>case</h2><p>基本语法：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">case $变量名 in
+"值1")
+如果变量值等于值1，则执行此处程序1
+;;
+"值2")
+如果变量值等于值2，则执行此处程序2
+;;
+...省略其它分支...
+*)
+如果变量值不等于以上列出的值，则执行此处程序
+;;
+esac<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">case $1 in
+"1")
+echo 周一
+;;
+"2")
+echo 周二
+;;
+*)
+echo 其它
+;;
+esac<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="for"><a href="#for" class="headerlink" title="for"></a>for</h2><p>基本语法：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 语法1
+for 变量名 in 值1 值2 值3...
+do
+    程序
+done
+
+# 语法2
+for ((初始值; 循环控制条件; 变量变化))
+do
+    程序
+done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="语法一"><a href="#语法一" class="headerlink" title="语法一"></a>语法一</h3><p>==$*== ：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash  
+
+# 使用$* 
+for i in "$*" 
+do     
+    echo "the arg is $i" 
+done 
+
+# 输出：
+thearg is 1 2 3 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p> ==$@== ：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash  
+
+# 使用$@ 
+for j in "$@" 
+do     
+    echo "the arg is $j" 
+done
+
+# 输出：
+the arg is 1 
+the arg is 2 
+the arg is 3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="语法二"><a href="#语法二" class="headerlink" title="语法二"></a>语法二</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash 
+SUM=0  
+for ((i=1;i&lt;=100;i++)) 
+do     
+    SUM=$[$SUM+$i] 
+done 
+
+echo $SUM
+# 输出从1加到100的值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+<h2 id="while"><a href="#while" class="headerlink" title="while"></a>while</h2><p>基本语法：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">while [ 条件判断式 ]
+do
+    程序
+done <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+SUM=0
+i=0
+
+while [ $i -le $1 ]
+do
+    SUM=$[$SUM+$i]
+    i=$[$i+1]
+done       
+echo $SUM
+# 输出从1加到100的值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="读取控制台输入"><a href="#读取控制台输入" class="headerlink" title="读取控制台输入"></a>读取控制台输入</h2><p>基本语法：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">read(选项)(参数)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>选项<ul>
+<li>-p：指定读取值时的提示符 </li>
+<li>-t：指定读取值时等待的时间（秒），如果没有在指定时间内输入，就不再等待</li>
+</ul>
+</li>
+<li>参数<ul>
+<li>变量名：读取值的变量名</li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">vim guessGame.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h3><p>基本语法：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[ function ] funname[()]
+{
+    Action;
+    [return int;]
+}
+
+# 调用
+funname 参数1 参数2...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>函数名后面的圆括号中<code>不加任何参数</code>，这点与主流编程语言不相同</li>
+<li>函数的完整定义必须<code>置于函数的调用之前</code></li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+function getSum(){
+    SUM=$[$n1+$n2]
+}   
+
+# 函数中的变量 均为全局变量，没有局部变量
+echo "sum=$SUM"
+
+
+read -p "请输入第一个参数n1：" n1
+read -p "请输入第二个参数n2：" n2
+
+# 调用 getSum 函数
+getSum $n1 $n2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+print_something(){
+    echo "hello $1" # $1 获取第一个参数
+}
+print_something Lion # Lion 为参数
+print_something Frank # Frank 为参数<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+<h3 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h3><p> shell中函数的返回值<code>只能是整数</code>  </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+print_something(){
+    echo "Hello $1"
+    return 1
+}
+
+print_something will
+
+echo "函数的返回值是 $?" 
+# $? 获取到的是上一个函数的返回值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p> 也可以通过下面变通的方法:   通过echo或者print之类的就可以做到<code>传一些额外参数</code>的目的 </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+func(){
+    echo "2333"
+}
+res=$(func)
+
+echo "This is from function: $res."<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="函数的局部变量"><a href="#函数的局部变量" class="headerlink" title="函数的局部变量"></a>函数的局部变量</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+local_global(){
+# 通过 local 关键字定义局部变量
+  local var1='local 1' 
+  echo "var1 is $var1"
+}
+
+local_global<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+<h3 id="巧用main函数"><a href="#巧用main函数" class="headerlink" title="巧用main函数"></a>巧用main函数</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+func1(){
+    #do sth
+}
+func2(){
+    #do sth
+}
+main(){
+    func1
+    func2
+}
+main "$@"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>func1 / func2 必须定义在<strong>调用</strong>main函数之前，可以定义在main函数之后</p>
+</blockquote>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+var=1
+
+func(){
+   var=2
+}
+func
+
+echo $var
+# 2 : 输出结果就是2而不是1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="间接引用"><a href="#间接引用" class="headerlink" title="间接引用"></a>间接引用</h3><h3 id="basename"><a href="#basename" class="headerlink" title="basename"></a>basename</h3><ul>
+<li>basename，删掉路径最后一个 / 前的所有部分（包括/），常用于获取文件名 <ul>
+<li>basename [pathname] [suffx]</li>
+<li>basename [string] [suffx]</li>
+<li>如果指定 suffx，也会删掉pathname或string的后缀部分</li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">basename /usr/bin/sort  
+# sort  
+
+basename include/stdio.h  
+# stdio.h  
+
+basename include/stdio.h .h 
+# stdio<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="dirname"><a href="#dirname" class="headerlink" title="dirname"></a>dirname</h3><ul>
+<li>dirname，删掉路径最后一个 / 后的所有部分（包括/），常用于获取文件路径 <ul>
+<li>dirname pathname</li>
+<li>如果路径中不含 / ，则返回 ‘.’ （当前路径）</li>
+</ul>
+</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">dirname /usr/bin/  
+# /usr  
+
+dirname dir1/str dir2/str 
+# dir1 
+# dir2  
+
+dirname stdio.h 
+# .
+# 表示当前路径<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><h3 id="字符串替换"><a href="#字符串替换" class="headerlink" title="字符串替换"></a>字符串替换</h3><p>替换规则：</p>
+<ul>
+<li><code>${变量名#匹配规则}</code> 从变量开头进行规则匹配，将符合最短的数据删除。</li>
+<li><code>${变量名##匹配规则}</code> 从变量开头进行规则匹配，将符合最长的数据删除。</li>
+<li><code>${变量名%匹配规则}</code> 从变量尾部进行规则匹配，将符合最短的数据删除。</li>
+<li><code>${变量名%%匹配规则}</code> 从变量尾部进行规则匹配，将符合最长的数据删除。</li>
+<li><code>${变量名/旧字符串/新字符串}</code> 变量内容符合旧字符串，则第一个旧字符串会被新字符串取代。</li>
+<li><code>${变量名//旧字符串/新字符串}</code> 变量内容符合旧字符串，则全部旧字符串会被新字符串取代。</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">var_1="I love you, Do you love me"
+
+var=${var_1#*ov} # e you, Do you love me
+
+var=${var_1##*ov} # e me
+
+var=${var_1%ov*} # I love you, Do you l
+
+var=${var_1%%ov*} # I l
+
+var_2="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+# 第一个小写bin被替换为大写的BIN
+var=${var_2/bin/BIN} # /usr/local/BIN:/usr/bin:/bin:/usr/sbin:/sbin 
+
+# 所有小写bin会被替换为大写的BIN
+var=${var_2//bin/BIN} # /usr/local/BIN:/usr/BIN:/BIN:/usr/sBIN:/sBIN<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="计算字符串的长度"><a href="#计算字符串的长度" class="headerlink" title="计算字符串的长度"></a>计算字符串的长度</h3><ul>
+<li>`$</li>
+</ul>
 
                 
             </div>
