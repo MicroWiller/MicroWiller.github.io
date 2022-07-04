@@ -563,7 +563,7 @@
 <li>对一个指令末尾的“&amp;”翻译为将程序转到后台执行</li>
 </ul>
 <p>参考： <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/35382632">Shell 是用来解决什么问题的</a> </p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 配置环境变量
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><h4 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 配置环境变量
 vim /etc/profile
 
 # 最后行添加路径
@@ -578,7 +578,7 @@ export
 # 输出当前的PATH环境变量的值
 echo $PATH <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="进程相关"><a href="#进程相关" class="headerlink" title="进程相关"></a>进程相关</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 查看当前的进程的网络
+<h4 id="进程相关"><a href="#进程相关" class="headerlink" title="进程相关"></a>进程相关</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 查看当前的进程的网络
 # 可以使用 "ss" (socket statistics) 来替代 netstat
 netstat -an | grep 进程号
 
@@ -601,17 +601,17 @@ ps -Lfp pid
 ./hello.sh &amp; disown<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
-<h3 id="文件校验及查找"><a href="#文件校验及查找" class="headerlink" title="文件校验及查找"></a>文件校验及查找</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># sha1 文件校验
+<h4 id="文件校验及查找"><a href="#文件校验及查找" class="headerlink" title="文件校验及查找"></a>文件校验及查找</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># sha1 文件校验
 sha1sum 文件名<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 在 “文件夹范围内” 两天内修改的文件/文件夹
 find 范围 -mtime -2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p><a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/636f38bb6e0bdad6b846103e.html">Linux-文件搜索命令find的使用</a>	</p>
-<h3 id="开机自启动"><a href="#开机自启动" class="headerlink" title="开机自启动"></a>开机自启动</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 开机自启 
+<h4 id="开机自启动"><a href="#开机自启动" class="headerlink" title="开机自启动"></a>开机自启动</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 开机自启 
 /sbin/chkconfig --add server_name
 
 # 自定义开机文件
 cd /etc/systemd/system<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 停止firewall
+<h4 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 停止firewall
 systemctl stop firewalld.service
 # 禁止firewall开机启动
 systemctl disable firewalld.service 
@@ -650,13 +650,13 @@ systemctl [stop|start|restart] iptables
 # 现在接着修改/etc/sysconfig/iptables文件
 vim /etc/sysconfig/iptables<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="网络相关"><a href="#网络相关" class="headerlink" title="网络相关"></a>网络相关</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 修改网络
+<h4 id="网络相关"><a href="#网络相关" class="headerlink" title="网络相关"></a>网络相关</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 修改网络
 vim /etc/sysconfig/network-scripts/ifcfg-enp0s3
 # centos6的网卡重启方法：
 service network restart
 # centos7的网卡重启方法：
 systemctl restart network<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="内存-x2F-磁盘相关"><a href="#内存-x2F-磁盘相关" class="headerlink" title="内存/磁盘相关"></a>内存/磁盘相关</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 查看 "内存" 包括物理内存和虚拟内存swap
+<h4 id="内存-x2F-磁盘相关"><a href="#内存-x2F-磁盘相关" class="headerlink" title="内存/磁盘相关"></a>内存/磁盘相关</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 查看 "内存" 包括物理内存和虚拟内存swap
 free -h
 
 # 查看 "磁盘" 的使用量
@@ -690,13 +690,13 @@ hdparm -i /dev/sdb1 |grep -i serialno
 <p><a target="_blank" rel="noopener" href="https://snapshooter.io/blog/how-to-grow-an-ext234-file-system-with-resize2fs-">How to grow file system</a>: 除了主分区外</p>
 <p><a target="_blank" rel="noopener" href="https://linuxconfig.org/how-to-resize-ext4-root-partition-live-without-umount">Resize Root Partition in Linux</a>	</p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenmh/p/5096592.html">使用fdisk扩容分区</a>	</p>
-<h3 id="文件处理"><a href="#文件处理" class="headerlink" title="文件处理"></a>文件处理</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># "xargs" 读取输入源，然后逐行处理
+<h4 id="文件处理"><a href="#文件处理" class="headerlink" title="文件处理"></a>文件处理</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># "xargs" 读取输入源，然后逐行处理
 # 删除目录中的所有class文件: 
 find . | grep .class$ | xargs rm -rvf
 
 #把所有的rmvb文件拷贝到目录
 ls *.rmvb | xargs -n1 -i cp {} /mount/xiaodianying<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="ssh连接设置"><a href="#ssh连接设置" class="headerlink" title="ssh连接设置"></a>ssh连接设置</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// 修改sshd
+<h4 id="ssh连接设置"><a href="#ssh连接设置" class="headerlink" title="ssh连接设置"></a>ssh连接设置</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">// 修改sshd
 vim /etc/ssh/sshd_config
 # 打开权限：
 # PermitRootLogin yes
@@ -706,11 +706,11 @@ vim /etc/ssh/sshd_config
 systemctl restart sshd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
-<h2 id="系统状态命令"><a href="#系统状态命令" class="headerlink" title="系统状态命令"></a>系统状态命令</h2><h3 id="整机"><a href="#整机" class="headerlink" title="整机"></a>整机</h3><ul>
+<h3 id="系统状态命令"><a href="#系统状态命令" class="headerlink" title="系统状态命令"></a>系统状态命令</h3><h4 id="整机"><a href="#整机" class="headerlink" title="整机"></a>整机</h4><ul>
 <li>top </li>
 <li>uptime，系统性能命令的精简版</li>
 </ul>
-<h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><ul>
+<h4 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h4><ul>
 <li><p>vmstat -n 2 3    每两秒采样一次，共计采样三次</p>
 <ul>
 <li><p>procs：</p>
@@ -723,8 +723,8 @@ systemctl restart sshd<span aria-hidden="true" class="line-numbers-rows"><span><
 </ul>
 </li>
 </ul>
-<h2 id="第三方命令"><a href="#第三方命令" class="headerlink" title="第三方命令"></a>第三方命令</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102176365?utm_oi=1129729846456283136">shell基本语法</a> </p>
-<h2 id="vim常用"><a href="#vim常用" class="headerlink" title="vim常用"></a>vim常用</h2><ul>
+<h3 id="第三方命令"><a href="#第三方命令" class="headerlink" title="第三方命令"></a>第三方命令</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102176365?utm_oi=1129729846456283136">shell基本语法</a> </p>
+<h3 id="vim常用"><a href="#vim常用" class="headerlink" title="vim常用"></a>vim常用</h3><ul>
 <li><p><code>u</code> 撤销当前操作</p>
 </li>
 <li><p><code>.</code> 重复上一次的命令</p>
@@ -733,20 +733,20 @@ systemctl restart sshd<span aria-hidden="true" class="line-numbers-rows"><span><
 </li>
 </ul>
 <p>参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6934580280627822599#heading-2">vim高级使用</a> </p>
-<h2 id="read"><a href="#read" class="headerlink" title="read"></a>read</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>请求输入， <code>read</code> 命令读取到的文本会立即被存储在一个变量里。</p>
+<h3 id="read"><a href="#read" class="headerlink" title="read"></a>read</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>请求输入， <code>read</code> 命令读取到的文本会立即被存储在一个变量里。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
 
 # filename: read.sh
 read name
 echo "hello $name !"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>执行 <code>./read.sh</code> 时，会发现光标处于接收输入的状态，此时输入一个字符串 <code>will</code> 按下回车键后，控制台会打印出 <code>hello will</code> </p>
-<h3 id="同时给几个变量赋值"><a href="#同时给几个变量赋值" class="headerlink" title="同时给几个变量赋值"></a>同时给几个变量赋值</h3><p>可以用 <code>read</code> 命令一次性给多个变量赋值， <code>read</code> 命令一个单词一个单词（空格分开）地读取你输入的参数，并且把每个参数赋值给对应的变量。</p>
+<h4 id="同时给几个变量赋值"><a href="#同时给几个变量赋值" class="headerlink" title="同时给几个变量赋值"></a>同时给几个变量赋值</h4><p>可以用 <code>read</code> 命令一次性给多个变量赋值， <code>read</code> 命令一个单词一个单词（空格分开）地读取你输入的参数，并且把每个参数赋值给对应的变量。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
 
 read oneName towName
 echo "hello $oneName $towName !"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="显示提示信息"><a href="#显示提示信息" class="headerlink" title="显示提示信息"></a>显示提示信息</h3><p><code>read</code> 命令的 <code>-p</code> 参数， <code>p</code> 是 <code>prompt</code> 的首字母，表示“提示”。</p>
+<h4 id="显示提示信息"><a href="#显示提示信息" class="headerlink" title="显示提示信息"></a>显示提示信息</h4><p><code>read</code> 命令的 <code>-p</code> 参数， <code>p</code> 是 <code>prompt</code> 的首字母，表示“提示”。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
 
 read -p "请输入您的姓名：" name
@@ -755,12 +755,12 @@ echo "hello $name !"<span aria-hidden="true" class="line-numbers-rows"><span></s
 
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 换行
 read -p $'please input file.csv (need format is CSV UTF-8) \x0a' file_name<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h3 id="限制字符数目"><a href="#限制字符数目" class="headerlink" title="限制字符数目"></a>限制字符数目</h3><p>用 <code>-n</code> 参数可以限制用户输入的字符串的最大长度（字符数）</p>
+<h4 id="限制字符数目"><a href="#限制字符数目" class="headerlink" title="限制字符数目"></a>限制字符数目</h4><p>用 <code>-n</code> 参数可以限制用户输入的字符串的最大长度（字符数）</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">read -p "请输入您的姓名：" -n 5 name<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<h3 id="限制输入时间"><a href="#限制输入时间" class="headerlink" title="限制输入时间"></a>限制输入时间</h3><p>用 <code>-t</code> 参数可以限定用户的输入时间（单位：秒）超过这个时间，就不读取输入了。</p>
+<h4 id="限制输入时间"><a href="#限制输入时间" class="headerlink" title="限制输入时间"></a>限制输入时间</h4><p>用 <code>-t</code> 参数可以限定用户的输入时间（单位：秒）超过这个时间，就不读取输入了。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">read -p "请输入您的姓名：" -n 5 -t 10 name<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h3 id="隐藏输入内容"><a href="#隐藏输入内容" class="headerlink" title="隐藏输入内容"></a>隐藏输入内容</h3><p>用 <code>-s</code> 参数可以隐藏输入内容，在用户输入密码时使用。</p>
+<h4 id="隐藏输入内容"><a href="#隐藏输入内容" class="headerlink" title="隐藏输入内容"></a>隐藏输入内容</h4><p>用 <code>-s</code> 参数可以隐藏输入内容，在用户输入密码时使用。</p>
 <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">read -p "请输入密码：" -s password<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><blockquote>
 <p> Shell 变量 分为<strong>系统变量</strong>和<strong>自定义变量</strong> </p>
@@ -1486,9 +1486,841 @@ var=${var_2//bin/BIN} # /usr/local/BIN:/usr/BIN:/BIN:/usr/sBIN:/sBIN<span aria-h
 
 
 
-<h3 id="计算字符串的长度"><a href="#计算字符串的长度" class="headerlink" title="计算字符串的长度"></a>计算字符串的长度</h3><ul>
-<li>`$</li>
+<h3 id="计算字符串的长度"><a href="#计算字符串的长度" class="headerlink" title="计算字符串的长度"></a>计算字符串的长度</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">`${#string}` 
+`expr length "$string"` 如果 `string` 有空格则必须加双引号。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">var_1="Hello world"
+
+len=${#var_1} # 11
+
+len=`expr length "$var_1"` # 11<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="获取子串在字符串中的索引位置"><a href="#获取子串在字符串中的索引位置" class="headerlink" title="获取子串在字符串中的索引位置"></a>获取子串在字符串中的索引位置</h3><ul>
+<li><code>expr index $string $substring</code> 从1开始计算索引位置。</li>
 </ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">var_1="quickstart is an app"
+
+ind=`expr index "$var_1" start` # 6
+ind=`expr index "$var_1" uniq` # 1
+ind=`expr index "$var_1" f` # 0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>它其实是按照子串的每个字符每个字符去进行匹配</p>
+<ul>
+<li>第一个例子匹配到的是 <code>s</code> 位置6。</li>
+<li>第二个匹配到的是 <code>q</code> 位置1。</li>
+<li>第三个例子什么都没有匹配到所以位置是0。</li>
+</ul>
+<h3 id="计算子串长度"><a href="#计算子串长度" class="headerlink" title="计算子串长度"></a>计算子串长度</h3><p><code>expr match $string substr</code>从头开始匹配子串长度，如果没有匹配到则返回0，匹配到了则返回配的子串长度。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">var_1="quickstart is an app"
+
+sub_len=`expr match "$var_1" app` # 0
+sub_len=`expr match "$var_1" quic` # 4
+sub_len=`expr match "$var_1" quic.*` # 18<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="抽取子串"><a href="#抽取子串" class="headerlink" title="抽取子串"></a>抽取子串</h3><ul>
+<li><code>${string:position}</code> 从 <code>string</code> 的 <code>position</code> 开始。</li>
+<li><code>${string:position:length}</code> 从 <code>position</code> 开始，匹配长度为 <code>length</code> 。</li>
+<li><code>${string: -position}</code> 从右边开始匹配。</li>
+<li><code>${string:(position)}</code> 从左边开始匹配。</li>
+<li><code>expr substr $string $postion $length</code> 从 <code>position</code> 开始，匹配长度为 <code>length</code> 。</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">var_1="quickstartisanapp"
+
+# 从索引10到最后提取子串，这种方式的索引是从0开始计算的
+substr=${var_1:10} # isanapp
+
+substr=${var_1:10:2} # is
+
+# -5 前面需要添加空格，如果不添加空格也可以使用括号
+substr=${var_1: -5} # anapp
+substr=${var_1:(-5)} # anapp
+
+# expr 这种方式的索引是从1开始
+substr=`expr substr "$var_1" 10 5` # tisan<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="实战练习"><a href="#实战练习" class="headerlink" title="实战练习"></a>实战练习</h3><p>变量 <code>string="Bigdata process framework is Hadoop,Hadoop is an open source project"</code> 执行脚本后，打印输出 <code>string</code> 字符串变量，并给用户以下选项：</p>
+<ul>
+<li>(1)、打印 <code>string</code> 长度</li>
+<li>(2)、删除字符串中所有的 <code>Hadoop</code> </li>
+<li>(3)、替换第一个 <code>Hadoop</code> 为 <code>Mapreduce</code> </li>
+<li>(4)、替换全部 <code>Hadoop</code> 为 <code>Mapreduce</code></li>
+</ul>
+<p>用户输入数字 <code>1|2|3|4</code> ，可以执行对应项的功能；输入 <code>q|Q</code> 则退出交互模式。</p>
+<h4 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h4><ol>
+<li>打印字符串很简单，直接 <code>echo</code> 打印即可。</li>
+<li>删除字符串也不难，使用 <code>${变量名//旧字符串/新字符串}</code> ，把 <code>Hadoop</code> 替换为空就从原字符串中删除了。</li>
+<li>至于替换也是使用 <code>${变量名/旧字符串//新字符串}</code></li>
+<li>用户输入，则使用的是上一篇文章讲到的 <code>read</code> 命令。</li>
+</ol>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+string="Bigdata process framework is Hadoop,Hadoop is an open source project"
+
+# 打印提示函数
+print_tips(){
+  echo "(1)、打印string长度"
+  echo "(2)、删除字符串中所有的Hadoop"
+  echo "(3)、替换第一个Hadoop为Mapreduce"
+  echo "(4)、替换全部Hadoop为Mapreduce"
+}
+
+# 输出字符串长度函数
+len_of_string(){
+  echo "${#string}"
+}
+
+# 替换Hadoop子串为空，相当于删除
+delete_Hadoop(){
+  echo "${string//Hadoop/}"
+}
+
+# 替换一个Hadoop为Mapreduce
+rep_hadoop_mapreduce_first(){
+  echo "${string/Hadoop/Mapreduce}"
+}
+
+# 替换全部Hadoop为Mapreduce
+rep_hadoop_mapreduce_all(){
+  echo "${string//Hadoop/Mapreduce}"
+}
+
+# 无限循环的接收用户输入，直到用户输入了q|Q则退出进程
+while true
+do
+  echo "$string" # 打印字符串
+  echo # 打印一个空
+  print_tips # 输出提示信息
+  read -p "请输入你的选择(1|2|3|4|q|Q)：" choice # 接收用户输入
+  # 根据用户的输入，进入不同的分支，调用不同的函数
+  case $choice in
+    1)
+    	len_of_string
+      ;;
+    2)
+    	delete_Hadoop
+      ;;
+    3)
+    	rep_hadoop_mapreduce_first
+      ;;
+    4)
+    	rep_hadoop_mapreduce_all
+      ;;
+    q|Q)
+    	exit
+      ;;
+    *)
+    	echo "错误的输入"
+      ;;
+    esac  
+done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="文本三剑客"><a href="#文本三剑客" class="headerlink" title="文本三剑客"></a>文本三剑客</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6935365727205457928#heading-56">参考：文本处理</a> </p>
+<h3 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h3><p>全局搜索一个正则表达式，并且打印到屏幕。简单来说就是，在文件中查找关键字，并显示关键字所在行。</p>
+<h4 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">grep text file # text代表要搜索的文本，file代表供搜索的文件
+
+# 实例
+grep path /etc/profile
+# pathmunge () {
+#     pathmunge /usr/sbin
+#     pathmunge /usr/local/sbin
+#     pathmunge /usr/local/sbin after
+#     pathmunge /usr/sbin after
+# unset -f pathmunge<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="常用参数-1"><a href="#常用参数-1" class="headerlink" title="常用参数"></a>常用参数</h4><ul>
+<li><code>-i</code> 忽略大小写， <code>grep -i path /etc/profile</code></li>
+<li><code>-n</code> 显示行号，<code>grep -n path /etc/profile</code></li>
+<li><code>-v</code> 只显示搜索文本不在的那些行，<code>grep -v path /etc/profile</code></li>
+<li><code>-r</code> 递归查找， <code>grep -r hello /etc</code> ， <code>Linux</code> 中还有一个 <code>rgrep</code> 命令，作用相当于 <code>grep -r</code></li>
+</ul>
+<h4 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h4><p><code>grep</code> 可以配合正则表达式使用。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">grep -E path /etc/profile --&gt; 完全匹配path
+grep -E ^path /etc/profile --&gt; 匹配path开头的字符串
+grep -E [Pp]ath /etc/profile --&gt; 匹配path或Path<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h3><p><code>stream Editor</code> 的缩写，**<u>流编辑器</u><strong>，对</strong><em>标准输出或文件</em>** <code>逐行</code> 进行处理。</p>
+<h4 id="语法格式-1"><a href="#语法格式-1" class="headerlink" title="语法格式"></a>语法格式</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sed [option] "pattern/command" file
+
+# 例如：
+sed '/python/p' name.txt 
+# 省略了option
+# /python/ 为pattern正则
+# p 为command命令打印的意思<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意：匹配模式中存在<u>变量要使用双引号</u>。</p>
+<h4 id="选项-option"><a href="#选项-option" class="headerlink" title="选项 option"></a>选项 option</h4><h5 id="n-只打印模式匹配行"><a href="#n-只打印模式匹配行" class="headerlink" title="-n 只打印模式匹配行"></a><code>-n</code> 只打印模式匹配行</h5><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sed 'p' name.txt 
+# 会对每一行字符串输出两遍，第一遍是原文本，第二遍是模式匹配到的文本
+
+sed -n 'p' name.txt 
+# 加了-n参数后就只打印模式匹配到的行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h5 id="e-默认选项"><a href="#e-默认选项" class="headerlink" title="-e 默认选项"></a>-e 默认选项</h5><p>支持多个 <code>pattern command</code> 的形式</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sed -e "pattern command" -e "pattern command" file<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h5 id="f-指定动作文件"><a href="#f-指定动作文件" class="headerlink" title="-f 指定动作文件"></a>-f 指定动作文件</h5><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 简单命令
+sed -n '/python/p' name.txt 
+# 但是一旦正则比较复杂，我们就可以把它保存在一个单独文件中，使用-f进行指定
+
+
+sed -n -f edit.sed name.txt 
+# '/python/p'这个命令保存在edit.sed文件中，使用-f指定
+# edit.sed 内容为 /python/p<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h5 id="E-扩展表达式"><a href="#E-扩展表达式" class="headerlink" title="-E 扩展表达式"></a>-E 扩展表达式</h5><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sed -n -E '/python|PYTHON/p' name.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h5 id="i-直接修改文件内容"><a href="#i-直接修改文件内容" class="headerlink" title="-i 直接修改文件内容"></a>-i 直接修改文件内容</h5><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sed -i 's/love/like/g' name.txt
+# -i修改原文件
+# 全部love替换为like<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="模式匹配-pattern"><a href="#模式匹配-pattern" class="headerlink" title="模式匹配 pattern"></a>模式匹配 pattern</h4><p><code>pattern</code> 用法表</p>
+<table>
+<thead>
+<tr>
+<th>匹配模式</th>
+<th>含义</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>10command</code></td>
+<td>匹配第10行</td>
+<td><code>sed -n "17p" name.txt</code> 打印 name 文件的第17行</td>
+</tr>
+<tr>
+<td><code>10,20command</code></td>
+<td>匹配从第10行开始，到第20行结束</td>
+<td><code>sed -n "10,20p" name.txt</code> 打印 <code>name</code> 文件的10到20行</td>
+</tr>
+<tr>
+<td><code>10,+5command</code></td>
+<td>匹配从第10行开始，到第15行结束</td>
+<td><code>sed -n "10,+5p" name.txt</code></td>
+</tr>
+<tr>
+<td><code>/pattern1/command</code></td>
+<td>匹配到 <code>pattern1</code> 的行</td>
+<td><code>sed -n "/^root/p" name.txt</code> 打印 <code>root</code> 开头的行</td>
+</tr>
+<tr>
+<td><code>/pattern1/,/pattern2/command</code></td>
+<td>匹配到 <code>pattern1</code> 的行开始，至匹配到 <code>pattern2</code> 的行结束</td>
+<td><code>sed -n "/^ftp/,/^mail/p" name.txt</code></td>
+</tr>
+<tr>
+<td><code>10,/pattern1/command</code></td>
+<td>匹配从第10行开始，到匹配到 <code>pattern1</code> 的行结束</td>
+<td><code>sed -n "4,/^ok/p" name.txt</code> 打印 <code>name</code> 文件从第4行开始匹配，直到以 <code>ok</code> 开头的行结束</td>
+</tr>
+<tr>
+<td><code>/pattern1/,10command</code></td>
+<td>匹配到 <code>pattern1</code> 的行开始，到第10行匹配结束</td>
+<td><code>sed -n "/root/,10p" name.txt</code></td>
+</tr>
+</tbody></table>
+<h4 id="命令-command"><a href="#命令-command" class="headerlink" title="命令 command"></a>命令 command</h4><ul>
+<li>查询<ul>
+<li><code>p</code> – 打印</li>
+</ul>
+</li>
+<li>增加<ul>
+<li><code>a</code> – 行后追加</li>
+<li><code>i</code> – 行前追加</li>
+<li><code>r</code> – 外部文件读入，行后追加</li>
+<li><code>w</code> – 匹配行写入外部文件</li>
+</ul>
+</li>
+<li>删除<ul>
+<li><code>d</code> – 删除</li>
+</ul>
+</li>
+<li>修改<ul>
+<li><code>s/old/new</code> – 将行内第一个 <code>old</code> 替换为 <code>new</code></li>
+<li><code>s/old/new/g</code> – 将行内全部的 <code>old</code> 替换为 <code>new</code></li>
+<li><code>s/old/new/2g</code> –同一行，只替换从第二个开始到剩下所有的</li>
+<li><code>s/old/new/ig</code> – 将行内 <code>old</code> 全部替换为 <code>new</code> ，忽略大小写</li>
+</ul>
+</li>
+</ul>
+<p>实例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sed '/python/p' name.txt # 打印
+
+sed '1d' name.txt # 删除第一行
+
+sed -i '/frank/a hello' name.txt # 匹配到字符串frank就在这一行后面插入“hello”
+sed -i '/frank/r list' name.txt # 把list文件内容追加到匹配frank字符串后面的行
+sed -n '/frank/w tmp.txt' name.txt # 将匹配到frank的行全部写入tmp.txt文件中
+
+sed -i 's/love/like/g' name.txt # 全局替换love为like，并修改源文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="反向应用"><a href="#反向应用" class="headerlink" title="反向应用"></a>反向应用</h4><p>引用前面的匹配到的字符。</p>
+<p>假设有一个文件 <code>test.txt</code> 内容为：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">a heAAo vbv
+c heBBo sdsad
+k heCCo mnh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>现在需要匹配到 <code>heAAo heBBo heCCo</code> 并在他们后面添加 <code>s</code> 。</p>
+<p>使用反向引用可以这样做：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sed -i 's/he..o/&amp;s/g' test.txt # 其中&amp;就是引用前面匹配到的字符
+sed -i 's/\(he..o\)/\1s/g' test.txt # 与上面的写法等价
+
+# 输出结果
+a heAAos vbv
+c heBBos sdsad
+k heCCos mnh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h3><p><code>awk</code> 是一个文本处理工具，通常用于处理数据并生成结果报告。</p>
+<h4 id="语法格式-2"><a href="#语法格式-2" class="headerlink" title="语法格式"></a>语法格式</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{}pattern{commands}END{}' file_name<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><code>BEGIN{}</code> 正式处理数据之前执行；</li>
+<li><code>pattern</code> 匹配模式；</li>
+<li><code>{commands}</code> 处理命令，可能多行；</li>
+<li><code>END{}</code> 处理完所有匹配数据后执行。</li>
+</ul>
+<h4 id="内置变量"><a href="#内置变量" class="headerlink" title="内置变量"></a>内置变量</h4><ul>
+<li><code>$0</code> – 整行内容。</li>
+<li><code>$1-$n</code> – 当前行的第 <code>1-n</code> 个字段。</li>
+<li><code>NF</code> – <code>Number Field</code> 的缩写，表示当前行的字段个数，也就是有多少列。</li>
+<li><code>NR</code> – <code>Number Row</code> 的缩写，表示当前行的行号，从1开始计数。</li>
+<li><code>FNR</code> – <code>File Number Row</code> 的缩写，表示多文本处理时，每个文件行号单独计数，都是从1开始。</li>
+<li><code>FS</code> – <code>Field Separator</code> 的缩写，表示输入字段分隔符，不指定默认以空格或 <code>tab</code> 键分割。</li>
+<li><code>RS</code> – <code>Row Separator</code> 的缩写，表示输入行分隔符，默认回车换行 <code>\n</code> 。</li>
+<li><code>OFS</code> – <code>Output Field Separator</code> ，表示输出字段分隔符，默认为空格。</li>
+<li><code>ORS</code> – <code>Output Row Separator</code> 的缩写，表示输出行分隔符，默认为回车换行。</li>
+<li><code>FILENAME</code> – 当前输入的文件名字。</li>
+<li><code>ARGC</code> – 命令行参数个数。</li>
+<li><code>ARGV</code> – 命令行参数数组。</li>
+</ul>
+<p>注意：字段个数，非字符个数，例如 <code>"frank lion alan"</code> 这一行有3个字段。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk '{print $0}' /etc/passwd 
+# 只有处理命令，输出每一行的内容
+
+awk 'BEGIN{FS=":"}{print $1}' /etc/passwd 
+# 处理文本之前先定义好分隔符为冒号，然后打印每一行被冒号分割后的文本的第一个字段
+
+awk 'BEGIN{FS=":"}{print $NF}' /etc/passwd 
+# 输出每一行的最后一列，NF中存的总列数，因此$NF表示最后一列的字段
+
+awk '{print $NF}' /etc/passwd 
+# 输出每一行的字段个数（默认以空格分割后的字段个数）
+
+awk '{print NR}' /etc/passwd 
+# 输出文件的行号
+
+awk '{print FNR}' /etc/passwd name.txt 
+# 输出两个文件的行号，每个文件单独计数
+
+awk 'BEGIN{RS="---"}{print $0}' /etc/passwd 
+# 行分隔符设置为---
+
+awk 'BEGIN{ORS="---"}{print $0}' /etc/passwd 
+# 定义输出的每一行的分隔符为 --- 
+
+awk 'BEGIN{ORS="---";RS="---"}{print $0}' /etc/passwd 
+# BEGIN 中定义多个变量需要;分割
+
+awk '{print FILENAME}' name.txt 
+# 输出name.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>备注：<code>/etc/passwd</code> 就是 <code>Linux</code> 系统中的密码文本，后续会一直使用，大概是如下格式：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>实例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 切割字符串，并生成数组
+cat excel-utf8.csv | while read line
+do
+        #echo ${line} | awk 'BEGIN {FS=",";OFS=" "} {print $1, $2}'
+        
+        # 读取每行，以","号分割，生成数组
+        arr=(`echo ${line} | awk '{len=split($0,a,","); for(i=1; i&lt;=len; i++) print a[i]}'`)
+        
+        # 输出数组元素
+        echo "coustomer: ${arr[0]}, path: ${arr[1]}"
+done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-comm-cut.html">cut 可以从文件的每一行剪切字节、字符和字段并将这些字节、字符和字段写至标准输出</a> </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk -F : 'BEGIN {print "start1, start7"} {print $1 "," $7} END {print "end1, end7"}' /etc/passwd
+
+
+# NF,浏览记录的字段个数（Field) ; NR,已读的记录数, 每行依次递增; 
+awk -F : '{ print NR  " "  NF  " "  $NF}' /etc/passwd  
+1 7 /bin/bash
+2 7 /sbin/nologin
+3 7 /sbin/nologin
+4 7 /sbin/nologin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="printf"><a href="#printf" class="headerlink" title="printf"></a>printf</h4><p><code>awk</code> 格式化输出。</p>
+<p>格式符：</p>
+<ul>
+<li><code>%s</code> – 打印字符串；</li>
+<li><code>%d</code> – 打印10进制数；</li>
+<li><code>%f</code> – 打印浮点数；</li>
+<li><code>%x</code> – 打印16进制数；</li>
+<li><code>%o</code> – 打印8进制数；</li>
+<li><code>%e</code> – 打印数字的科学计数法格式；</li>
+<li><code>%c</code> – 打印单个字符的 <code>ASCII</code> 码。</li>
+</ul>
+<p>修饰符：</p>
+<ul>
+<li><code>-</code> – 左对齐；</li>
+<li><code>+</code> – 右对齐；</li>
+<li><code>#</code> – 显示8进制在前面加0，显示16进制在前面加 <code>0x</code> 。</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{FS=":"}{printf $1}' /etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>输入上面 <code>awk</code> 命令打印后得到这样的结果： <img src="https://cdn.jsdelivr.net/gh/MicroWiller/photobed@master/AWKPrintf.png"> 不再像使用 <code>print</code> 命令会默认以换行符作为默认的输出了，而是全部集中在一行，因此使用 <code>printf</code> 需要自定义输出格式：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{FS=":"}{printf "%s\n",$1}' /etc/passwd # %s表示打印字符串 \n表示换行<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<p> <code>printf</code> 在处理多个字段的分隔符上是非常方便的：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{FS=":"}{printf "%20s %20s\n",$1,$7}' /etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><code>%20s</code> 表示 <code>20</code> 个字符，如果实际字符不够会默认使用空格补全</li>
+<li><code>$1</code> 表示第一部分， <code>$7</code> 表示第 <code>7</code> 部分</li>
+</ul>
+<p>默认是右对齐，也可以添加修饰符，使其左对齐：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{FS=":"}{printf "%-20s %-20s\n",$1,$7}' /etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d88954a4d18c4b62bff3bcbdbb8f71f0~tplv-k3u1fbpfcp-zoom-1.image" alt="image.png"></p>
+<p>其它示例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{FS=":"} {printf "%d\n", $3}' /etc/passwd 
+# 打印十进制数字，默认是左对齐的
+
+awk 'BEGIN{FS=":"} {printf "%20d\n", $3}' /etc/passwd 
+# %20d 不够的位数默认补全空格，因此它是右对齐
+
+awk 'BEGIN{FS=":"} {printf "%f\n", $3}' /etc/passwd 
+# 打印浮点数，默认保留小数点后6位置
+
+awk 'BEGIN{FS=":"} {printf "%0.2f\n", $3}' /etc/passwd 
+# 打印浮点数，保留小数点后2位置<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="模式匹配-pattern-1"><a href="#模式匹配-pattern-1" class="headerlink" title="模式匹配 pattern"></a>模式匹配 pattern</h4><p>它与 <code>sed</code> 的 <code>pattern</code> 非常类似，都是<code>按行</code>进行匹配。</p>
+<p>模式匹配的两种用法：</p>
+<ol>
+<li>按正则表达式匹配</li>
+<li>运算符匹配</li>
+</ol>
+<p>正则匹配：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 匹配/etc/passwd文件行中包含root字符串的所有行
+awk '/root/{print $0}' /etc/passwd
+
+# 匹配/etc/passwd文件行中以lion开头的所有行
+awk '/^lion/{print $0}' /etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>运算符匹配：</p>
+<ul>
+<li><code>&lt;</code> 小于</li>
+<li><code>&gt;</code> 大于</li>
+<li><code>&lt;=</code> 小于等于</li>
+<li><code>&gt;=</code> 大于等于</li>
+<li><code>==</code> 等于</li>
+<li><code>!=</code> 不等于</li>
+<li><code>~</code> 匹配正则表达式</li>
+<li><code>!~</code> 不匹配正则表达式</li>
+<li><code>||</code> 或</li>
+<li><code>&amp;&amp;</code> 与</li>
+<li><code>!</code> 非</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 以:为分隔符，匹配/etc/passwd文件中第三个字段小于50的所有信息
+awk 'BEGIN{FS=":"}$3&lt;50{print $0}' /etc/passwd
+
+# 输出第三个字段值等于1的行
+awk 'BEGIN{FS=":"}$3==1{print $0}' /etc/passwd
+
+# 输出第七个字段值等于 /bin/bash 的行
+awk 'BEGIN{FS=":"}$7=="/bin/bash"{print $0}' /etc/passwd
+
+# 输出第三个字段值的位数大于3的行
+awk 'BEGIN{FS=":"}$3~/[0-9]{3,}/{print $0}' /etc/passwd
+
+# 以:为分隔符，匹配/etc/passwd文件中第一个字段包含hdfs或yarn的所有行信息
+awk 'BEGIN{FS=":"}$1=="lion" || $1=="frank" {print $0}' /etc/passwd
+
+# 以:为分隔符，匹配/etc/passwd文件中第三个字段小于50并且第四个字段大于50的所有行信息
+awk 'BEGIN{FS=":"}$3&lt;50 &amp;&amp; $4&gt;50{print $0}' /etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="awk-中的表达式"><a href="#awk-中的表达式" class="headerlink" title="awk 中的表达式"></a>awk 中的表达式</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{var=20;var1="aaa";print var,var1}' 
+# 输出 20 aaa
+
+awk 'BEGIN{n1=20;n2+=n1;print n1,n2}' 
+# 20 20
+
+awk 'BEGIN{n1=20;n2=30;printf "%0.2f\n",n1/n2}' 
+# 输出浮点数，精确到小数点后两位<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意：在 <code>BEGIN</code> 和 <code>END</code> 中都可以正常执行表达式。</p>
+<h5 id="练习：使用-awk-计算-etc-services-中的空白行数量"><a href="#练习：使用-awk-计算-etc-services-中的空白行数量" class="headerlink" title="练习：使用 awk 计算 /etc/services 中的空白行数量"></a>练习：使用 awk 计算 <code>/etc/services</code> 中的空白行数量</h5><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># BEGIN 定义变量，通过正则/^$/匹配到空行后，执行sum++，全面匹配结束后在打印sum的值
+awk 'BEGIN{sum=0}/^$/{sum++}END{print sum}' /etc/services <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="awk-中的条件语句"><a href="#awk-中的条件语句" class="headerlink" title="awk 中的条件语句"></a>awk 中的条件语句</h4><p>语法格式：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">if(条件表达式)
+	{动作1} 
+else if(条件表达式)
+	{动作2}
+else
+	{动作3}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>练习：以冒号为分隔符，只打印 <code>/etc/passwd</code> 中第3个字段的数值在 <code>50-100</code> 范围内的行信息</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{FS=":"}{ if($3&gt;50 &amp;&amp; $3&lt;100){print $0} }' /etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="awk-中的循环语句"><a href="#awk-中的循环语句" class="headerlink" title="awk 中的循环语句"></a>awk 中的循环语句</h4><p>语法格式：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># while 循环
+while(条件表达式)
+  动作
+    
+# do while 循环
+do
+  动作
+while(条件表达式)
+  
+# for循环
+for(初始化计数器;计数器测试;计数器变更)
+  动作<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h5 id="计算-1-2-3-…-100-的和"><a href="#计算-1-2-3-…-100-的和" class="headerlink" title="计算 1+2+3+…+100 的和"></a>计算 1+2+3+…+100 的和</h5><p><code>while</code> 循环：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">创建文件：while.awk
+BEGIN{
+  while(i&lt;=100){
+    sum+=i
+    i++
+  }
+  print sum
+}
+执行命令：awk -f while.awk # 以脚本的方式执行awk动作<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>for</code> 循环：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">创建文件：for.awk
+BEGIN{
+  for(i=0;i&lt;=100;i++)
+  {
+  	sum+=i
+  }
+  print sum
+}
+执行命令：awk -f for.awk # 以脚本的方式执行awk动作<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>do...while</code> 循环：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">创建文件：do-while.awk
+BEGIN{
+  do
+  {
+    sum+=i
+    i++
+  }while(i&lt;=100)
+  print sum
+}
+执行命令：awk -f do-while.awk # 以脚本的方式执行awk动作<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h4 id="awk-字符串函数"><a href="#awk-字符串函数" class="headerlink" title="awk 字符串函数"></a>awk 字符串函数</h4><ul>
+<li><code>length(str)</code> 计算长度；</li>
+<li><code>index(str1,str2)</code> 返回在 <code>str1</code> 中查询到的 <code>str2</code> 的位置；</li>
+<li><code>tolower(str)</code> 小写转换；</li>
+<li><code>toupper(str)</code> 大写转换；</li>
+<li><code>split(str,arr,fs)</code> 分隔符字符串，并保存到数组中；</li>
+<li><code>match(str,RE)</code> 返回正则表达式匹配到的子串位置；</li>
+<li><code>substr(str,m,n)</code> 截取子串，从 <code>m</code> 个字符开始，截取 <code>n</code> 位。若 <code>n</code> 不指定，则默认截取到字符串末尾；</li>
+<li><code>sub(RE,ReqStr,str)</code> 替换查找到的第一个子串；</li>
+<li><code>gsub(RE,ReqStr,str)</code> 替换查找到的所有子串。</li>
+</ul>
+<h5 id="length-str"><a href="#length-str" class="headerlink" title="length(str)"></a>length(str)</h5><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{FS=":"}{print length($3)}' /etc/passwd # 计算第三个字段的长度<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="index-str1-str2"><a href="#index-str1-str2" class="headerlink" title="index(str1,str2)"></a>index(str1,str2)</h5><p>返回在 <code>str1</code> 中查询到的 <code>str2</code> 的位置</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{print index("I have a dream","ea")}' # 查找ea在字符串中的位置<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="tolower-str"><a href="#tolower-str" class="headerlink" title="tolower(str)"></a>tolower(str)</h5><p>转换为小写字符</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{print tolower("I have a dream")}' # i have a dream<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="toupper-str"><a href="#toupper-str" class="headerlink" title="toupper(str)"></a>toupper(str)</h5><p>转换为大写字符</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{print toupper("I have a dream")}' # I HAVE A DREAM<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="split-str-arr-fs"><a href="#split-str-arr-fs" class="headerlink" title="split(str,arr,fs)"></a>split(str,arr,fs)</h5><p>分隔符字符串，并保存到数组中</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 将字符串"I have a dream"按照空格进行分割
+
+awk 'BEGIN{str="I have a dream";split(str,arr," ");for(a in arr) print arr[a]}'
+
+# 输出
+# dream
+# I
+# have
+# a<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过 <code>for…in</code> 得到是无序的数组。如果需要得到有序数组，需要通过下标获得：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{str="I have a dream";len = split(str,arr," ");for(i=1;i&lt;=len;i++) print arr[i]}'<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h5 id="match-str-RE"><a href="#match-str-RE" class="headerlink" title="match(str,RE)"></a>match(str,RE)</h5><p>返回正则表达式匹配到的子串位置</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 输出字符串第一个数字出现所在的位置
+awk 'BEGIN{str="I have 1 dream";print match(str,/[0-9]/)}' # 8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h5 id="substr-str-m-n"><a href="#substr-str-m-n" class="headerlink" title="substr(str,m,n)"></a>substr(str,m,n)</h5><p>截取子串，从 <code>m</code> 个字符开始，截取 <code>n</code> 位。若 <code>n</code> 不指定，则默认截取到字符串末尾。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 截取字符串"I have a dream"的子串，从第四个位置开始，一直到最后
+awk 'BEGIN{str="I have a dream";print substr(str,4)}' # ave a dream<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h5 id="sub-RE-ReqStr-str"><a href="#sub-RE-ReqStr-str" class="headerlink" title="sub(RE,ReqStr,str)"></a>sub(RE,ReqStr,str)</h5><p>替换查找到的第一个子串。</p>
+<ul>
+<li><code>RE</code> 为正则表达式</li>
+<li><code>ReqStr</code> 为要替换的字符串</li>
+<li><code>str</code> 为源字符串</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 替换字符串"I have 123 dream"中第一个数字为$符号
+awk 'BEGIN{str="I have 123 dream";sub(/[0-9]+/,"$",str);print str}' # I have $ dream<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h5 id="gsub-RE-ReqStr-str"><a href="#gsub-RE-ReqStr-str" class="headerlink" title="gsub(RE,ReqStr,str)"></a>gsub(RE,ReqStr,str)</h5><p>替换查找到的所有子串</p>
+<ul>
+<li><code>RE</code> 为正则表达式</li>
+<li><code>ReqStr</code> 为要替换的字符串</li>
+<li><code>str</code> 为源字符串</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 替换字符串"I have 123 dream 456"中第一个数字为$符号
+awk 'BEGIN{str="I have 123 dream 456";gsub(/[0-9]+/,"$",str);print str}' # I have $ dream $<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h4 id="选项-option-1"><a href="#选项-option-1" class="headerlink" title="选项 option"></a>选项 option</h4><ul>
+<li><code>-v</code> 参数传递</li>
+<li><code>-f</code> 指定脚本文件</li>
+<li><code>-F</code> 指定分隔符</li>
+<li><code>-V</code> 查看 <code>awk</code> 的版本号</li>
+</ul>
+<h5 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h5><p><code>awk</code> 的 <code>BEGIN</code> 中不能直接使用 <code>shell</code> 中定义的变量，需要通过 <code>-v</code> 参数进行传递</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[root@lion ~]# var=20
+[root@lion ~]# num=30
+[root@lion ~]# awk -v var1="$var" -v var2="$num" 'BEGIN{print var1,var2}'
+20 30<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="指定脚本文件"><a href="#指定脚本文件" class="headerlink" title="指定脚本文件"></a>指定脚本文件</h5><p><code>'BEGIN{}pattern{commands}END{}'</code> 这里的内容可以写在一个独立的文件中，通过 <code>-f</code> 参数来引入。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># test.awk
+BEGIN{
+  var=30
+  print var
+}
+
+awk -f test.awk # 输出30<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这种写法更易于编写和维护，适合复杂 <code>awk</code> 语句。</p>
+<h5 id="指定分隔符"><a href="#指定分隔符" class="headerlink" title="指定分隔符"></a>指定分隔符</h5><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{FS=":"}{print length($3)}' /etc/passwd
+
+等同于：
+
+awk -F : '{print length($3)}' /etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="查看-awk-的版本号"><a href="#查看-awk-的版本号" class="headerlink" title="查看 awk 的版本号"></a>查看 awk 的版本号</h5><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[root@lion ~]# awk -V
+GNU Awk 4.0.2
+Copyright (C) 1989, 1991-2012 Free Software Foundation.
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># data.txt
+# 要求取反
+"糗大了": "qd",
+"左哼哼": "zhh",
+"右哼哼": "yhh",
+"快哭了": "kk",
+"左太极": "zuotj",
+"右太极": "youtj",
+"棒棒糖": "bbtang",<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">awk 'BEGIN{FS=":"}{print (substr($2,0,length($2)-1) ":" $1 ",") }' data.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h4 id="awk-处理生产数据实例"><a href="#awk-处理生产数据实例" class="headerlink" title="awk 处理生产数据实例"></a>awk 处理生产数据实例</h4><p>假设有一堆以下格式数据保存在文件 <code>data.txt</code> 中：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">2020-01-01 00:01:01 1000 Batches: user frank insert 2010 records databases:product table:detail, insert 1000 records successfully,failed 1010 records
+2020-01-01 00:01:02 1001 Batches: user lion insert 1030 records databases:product table:detail, insert 989 records successfully,failed 41 records
+2020-01-01 00:01:03 1002 Batches: user mike insert 1290 records databases:product table:detail, insert 235 records successfully,failed 1055 records
+2020-01-01 00:01:04 1003 Batches: user alan insert 3452 records databases:product table:detail, insert 1257 records successfully,failed 2195 records
+2020-01-01 00:01:05 1004 Batches: user ben insert 4353 records databases:product table:detail, insert 2245 records successfully,failed 2108 records
+2020-01-01 00:01:06 1005 Batches: user bily insert 5633 records databases:product table:detail, insert 3456 records successfully,failed 2177 records
+2020-01-01 00:01:07 1006 Batches: user frank insert 2010 records databases:product table:detail, insert 1000 records successfully,failed 1010 records<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>统计每个人员分别插入了多少条 record 进数据库，预期结果：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">USER	Total Records
+frank	4020
+lion  1030
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>代码演示：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># data.awk
+BEGIN{
+	printf "%-10s %-10s\n", "User", "Total Records"
+}
+
+{
+	USER[$6]+=$8 # USER为数组，空格分割后$6这个变量是用户名，$8是records，每次都去数组中取出$6的值进行相加以获取重复用户的总Records
+}
+
+END{
+    for(u in USER) # 遍历USER数组，打印数组每一项
+    {
+    	printf "%-10s %-10d\n", u , USER[u]
+    }
+}
+
+# awk 语句
+awk -f data.awk data.txt
+
+# 输出结果
+User       Total Records
+frank      4020      
+mike       1290      
+bily       5633      
+alan       3452      
+lion       1030      
+ben        4353 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+<h2 id="heredocs"><a href="#heredocs" class="headerlink" title="heredocs"></a><strong>heredocs</strong></h2><p> 使用heredocs，可以非常方便的生成一些模板文件： </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">cat&gt;&gt;/etc/rsyncd.conf &lt;&lt; EOF
+log file = /usr/local/logs/rsyncd.log
+transfer logging = yes
+log format = %t %a %m %f %b
+syslog facility = local3
+EOF<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+
+
+<h2 id="脚本执行路径"><a href="#脚本执行路径" class="headerlink" title="脚本执行路径"></a>脚本执行路径</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pwd
+# pwd获得的是当前shell的执行路径，而不是当前脚本的执行路径
+
+# /home/will/test<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 正确的做法应该是下面这两种：
+script_dir=$(cd $(dirname $0) &amp;&amp; pwd)
+script_dir=$(dirname $(readlink -f $0 ))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p> 先cd进 当前脚本的目录然后再pwd，或者直接读取当前脚本的所在路径。 </p>
+</blockquote>
+<h2 id="并行化-执行"><a href="#并行化-执行" class="headerlink" title="并行化 执行"></a><strong>并行化 执行</strong></h2><p> shell中最简单的并行化是通过”&amp;”以及”wait”命令来做 </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">#!/bin/bash
+
+func(){
+    #do sth
+｝
+for((i=0;i&lt;10;i++))do
+    func &amp;
+done
+wait<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里并行的次数不能太多，否则机器会卡死。</p>
+<p>如果图省事可以使用<strong>parallel</strong>命令来做，或者是用 <strong>xargs</strong> 来处理。</p>
+<h2 id="a到-z的意思"><a href="#a到-z的意思" class="headerlink" title="-a到-z的意思"></a>-a到-z的意思</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[ -a FILE ] 如果 FILE 存在则为真。
+[ -b FILE ] 如果 FILE 存在且是一个块特殊文件则为真。
+[ -c FILE ] 如果 FILE 存在且是一个字特殊文件则为真。
+[ -d FILE ] 如果 FILE 存在且是一个目录则为真。
+[ -e FILE ] 如果 FILE 存在则为真。
+[ -f FILE ] 如果 FILE 存在且是一个普通文件则为真。
+[ -g FILE ] 如果 FILE 存在且已经设置了SGID则为真。
+[ -h FILE ] 如果 FILE 存在且是一个符号连接则为真。
+[ -k FILE ] 如果 FILE 存在且已经设置了粘制位则为真。
+[ -p FILE ] 如果 FILE 存在且是一个名字管道(F如果O)则为真。
+[ -r FILE ] 如果 FILE 存在且是可读的则为真。
+[ -s FILE ] 如果 FILE 存在且大小不为o则为真。
+[ -t FD ] 如果文件描述符 FD 打开且指向一个终端则为真。
+[ -u FILE ] 如果 FILE 存在且设置了SUID (set user ID)则为真。
+[ -w FILE ] 如果 FILE 如果 FILE 存在且是可写的则为真。
+[ -x FILE ] 如果 FILE 存在且是可执行的则为真。
+[ -O FILE ] 如果 FILE 存在且属有效用户ID则为真。
+[ -G FILE ] 如果 FILE 存在且属有效用户组则为真。
+[ -L FILE ] 如果 FILE 存在且是一个符号连接则为真。
+[ -N FILE ] 如果 FILE 存在 and has been mod如果ied since it was last read则为真。
+[ -S FILE ] 如果 FILE 存在且是一个套接字则为真。
+[ FILE1 -nt FILE2 ] 如果 FILE1 has been changed more recently than FILE2, or 如果 FILE1 exists and FILE2 does not则为真。
+[ FILE1 -ot FILE2 ] 如果 FILE1 比 FILE2 要老, 或者 FILE2 存在且 FILE1 不存在则为真。
+[ FILE1 -ef FILE2 ] 如果 FILE1 和 FILE2 指向相同的设备和节点号则为真。
+[ -o OPTIONNAME ] 如果 shell选项 “OPTIONNAME” 开启则为真。
+[ -z STRING ] “STRING” 的长度为零则为真。
+[ -n STRING ] or [ STRING ] “STRING” 的长度为非零 non-zero则为真。
+[ STRING1 == STRING2 ] 如果2个字符串相同。 “=” may be used instead of “==” for strict POSIX compliance则为真。
+[ STRING1 != STRING2 ] 如果字符串不相等则为真。
+[ STRING1 &lt; STRING2 ] 如果 “STRING1” sorts before “STRING2” lexicographically in the current locale则为真。
+[ STRING1 &gt; STRING2 ] 如果 “STRING1” sorts after “STRING2” lexicographically in the current locale则为真。
+
+[ -z “echo 111s|sed 's/[0-9]//g'” ] &amp;&amp; echo 1 || echo 0 #把字符串中的数字都替换掉<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">[[ $test =~ ^[0-9]+ ]] &amp;&amp; echo 1 || echo 0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> <code> ~</code> 其实是对后面的正则表达式表示匹配的意思，如果匹配就输出1， 不匹配就输出0 </p>
+<h2 id="比较符"><a href="#比较符" class="headerlink" title="比较符"></a>比较符</h2><p>​    <em><strong>*-eq(equal)*</strong></em>   : 测试两个整数是否相等；比如 $A -eq $B</p>
+<p>​    <em><strong>*-ne**(**inequality*</strong></em><em><strong>*)*</strong></em> : 测试两个整数是否不等；不等，为真；相等，为假；</p>
+<p>​    <em><strong>*-gt(greter than)*</strong></em> : 测试一个数是否大于另一个数；大于，为真；否则，为假；</p>
+<p>​    <em><strong>*-lt*</strong></em><em><strong>*(less than)*</strong></em> : 测试一个数是否小于另一个数；小于，为真；否则，为假；</p>
+<p>​    <strong><em>*-ge**(greter equal)**</em>*</strong>: 大于或等于</p>
+<p>​     <em><strong>*-le*</strong></em><em><strong>*(less equal)*</strong></em> ：小于或等于</p>
+<h2 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h2><p><a target="_blank" rel="noopener" href="http://www.zsythink.net/archives/1199">iptables详解</a>	</p>
+<h2 id="进程结构体"><a href="#进程结构体" class="headerlink" title="进程结构体"></a>进程结构体</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c">struct task_struct {
+    // 进程状态
+    long              state;
+    // 虚拟内存结构体
+    struct mm_struct  *mm;
+    // 进程号
+    pid_t              pid;
+    // 指向父进程的指针
+    struct task_struct __rcu  *parent;
+    // 子进程列表
+    struct list_head        children;
+    // 存放文件系统信息的指针
+    struct fs_struct        *fs;
+    // 一个数组，包含该进程打开的文件指针
+    struct files_struct        *files;
+};<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/389045898">如何让Linux命令在后台运行 - 知乎 (zhihu.com)</a>  </p>
 
                 
             </div>
