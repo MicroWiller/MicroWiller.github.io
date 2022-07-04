@@ -558,6 +558,39 @@
 <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/PjNc7YLKT5JX_Obg2815Bg">DDD 到底是银弹还是垃圾 (qq.com)</a>：防腐层 等各种名词介绍</p>
 <p> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26695984">今日头条Go建千亿级微服务的实践</a>：<code>并发控制</code> / <code>超时控制</code> /</p>
 <p><strong>wait：</strong></p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">func makeThumbnails6(filenames &lt;-chan string) int64 {
+
+    sizes := make(chan int64)
+    var wg sync.WaitGroup // number of working goroutines
+
+    for f := range filenames {
+        wg.Add(1)
+
+        // worker
+        go func(f string) {
+            defer wg.Done()
+            thumb, err := thumbnail.ImageFile(f)
+            if err != nil {
+                log.Println(err)
+                return
+            }
+            info, _ := os.Stat(thumb) // OK to ignore error
+            sizes &lt;- info.Size()
+        }(f)
+    }
+    // closer
+    go func() {
+        wg.Wait()
+        close(sizes)
+    }()
+
+    var total int64
+    for size := range sizes {
+        total += size
+    }
+    return total
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <pre class="line-numbers language-go" data-language="go"><code class="language-go">func main() {
    wg := sync.WaitGroup{}
 	wg.Add(3)
