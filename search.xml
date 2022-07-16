@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>kernel</title>
+      <link href="/2022/07/16/kernel/"/>
+      <url>/2022/07/16/kernel/</url>
+      
+        <content type="html"><![CDATA[<h2 id="从开机加电到执行main函数之前的过程"><a href="#从开机加电到执行main函数之前的过程" class="headerlink" title="从开机加电到执行main函数之前的过程"></a>从开机加电到执行main函数之前的过程</h2><p>第一步，启动BIOS，准备实模式下的中断向量表和中断服务程序；<br>第二步，从启动盘加载操作系统程序到内存，加载操作系统程序的工作就是利用第一步中准备的中断服务程序实现的；<br>第三步，为执行32位的main函数做过渡工作。</p><h3 id="BIOS"><a href="#BIOS" class="headerlink" title="BIOS"></a>BIOS</h3><p><a href="https://baike.sogou.com/v45346.htm?ch=op.wx.read">BIOS</a>: 是在通电引导阶段 运行硬件初始化，以及为操作系统和程序提供运行时服务的固件。</p><p>启动时BIOS在内存的状态及初始执行位置:</p><img src="../images/BIOS_inMemory.png"><p>CS（Code Segment Register）：<strong>代码段</strong>寄存器，存在于CPU中，指向CPU <strong>当前执行代码</strong> 在<u>内存中</u>的<strong>区域</strong>（定义了存放代码的存储器的起始地址）。</p><p>IP/EIP（Instruction Pointer）：<strong>指令指针</strong>寄存器，存在于CPU中，记录将要执行的指令在代码段内的偏移地址，和CS组合即为将要执行的指令的内存地址。实模式为绝对地址，指令指针为16位，即IP；保护模式下为线性地址，指令指针为32位，即EIP。</p><p>BIOS程序的入口地址恰恰就是0xFFFF0 ！ 也就是说，BIOS程序的第一条指令就设计在这个位置。</p><p>BIOS在内存中加载中断向量表和中断服务程序：<br><img src="../images/BIOS_loadTable.png"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> go </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>redis</title>
       <link href="/2022/05/22/redis/"/>
       <url>/2022/05/22/redis/</url>

@@ -6,7 +6,7 @@
   <link href="https://microwiller.github.io/atom.xml" rel="self"/>
   
   <link href="https://microwiller.github.io/"/>
-  <updated>2022-05-22T14:10:52.944Z</updated>
+  <updated>2022-07-16T04:27:29.061Z</updated>
   <id>https://microwiller.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>kernel</title>
+    <link href="https://microwiller.github.io/2022/07/16/kernel/"/>
+    <id>https://microwiller.github.io/2022/07/16/kernel/</id>
+    <published>2022-07-16T02:25:38.000Z</published>
+    <updated>2022-07-16T04:27:29.061Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;从开机加电到执行main函数之前的过程&quot;&gt;&lt;a href=&quot;#从开机加电到执行main函数之前的过程&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="go" scheme="https://microwiller.github.io/categories/go/"/>
+    
+    
+    <category term="linux" scheme="https://microwiller.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>redis</title>
     <link href="https://microwiller.github.io/2022/05/22/redis/"/>
     <id>https://microwiller.github.io/2022/05/22/redis/</id>
     <published>2022-05-22T14:07:37.000Z</published>
-    <updated>2022-05-22T14:10:52.944Z</updated>
+    <updated>2022-07-16T04:02:28.113Z</updated>
     
     
       
