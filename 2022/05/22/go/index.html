@@ -551,7 +551,8 @@
 <p><a target="_blank" rel="noopener" href="https://coolshell.cn/articles/21615.html">泛型编程</a>：</p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6965421491588431909">sync.Pool原理解析</a>：减少小块对象内存频繁申请（帮助在程序构建了对象池，提供对象可复用能力，本身是可伸缩且并发安全的。）</p>
 <p>[深度分析 Golang sync.Pool 底层原理](<a target="_blank" rel="noopener" href="https://www.cyhone.com/articles/think-in-sync-pool/#:~:text=sync.Pool">https://www.cyhone.com/articles/think-in-sync-pool/#:~:text=sync.Pool</a> 是 Golang,内置的对象池技术，可用于缓存临时对象，避免因频繁建立临时对象所带来的消耗以及对 GC 造成的压力。?msclkid=0e13220fd0fa11ec8c4b5655473f1d3d)：pool的内部数据结构 / CPU cache</p>
-<h2 id="Go实战"><a href="#Go实战" class="headerlink" title="Go实战"></a>Go实战</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114340283">Go进程的HeapReleased上升，但是RSS不下降造成内存泄漏？ - 知乎 (zhihu.com)</a>：</p>
+<h2 id="Go实战"><a href="#Go实战" class="headerlink" title="Go实战"></a>Go实战</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7126753651455950856">err 的优雅处理</a>: 错误是值</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114340283">Go进程的HeapReleased上升，但是RSS不下降造成内存泄漏？ - 知乎 (zhihu.com)</a>：</p>
 <p><a target="_blank" rel="noopener" href="https://pengrl.com/p/20031/">Go pprof内存指标含义备忘录 | yoko blog (pengrl.com)</a>：各种概念介绍</p>
 <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/OyiF57PcMQjeoGpShEgidQ">Go 的json 解析标准库竟然存在这样的陷阱？</a>：神技、版本变更兼容</p>
 <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/FyHEiaa-UfyLStMKl2VFGA">golang：快来抓住让我内存泄漏的“真凶”！</a> ：golang10次内存泄漏，8次goroutine泄漏，1次是真正内存泄漏，<strong>还有1次是cgo导致的内存泄漏</strong>。</p>
@@ -972,7 +973,8 @@ type hmap struct {
 <li><p>如果拷贝的内容是指针（或者可以理解为引用类型 map、chan 等），那么在函数中就<code>可以修改</code>原始数据</p>
 </li>
 </ul>
-<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><h3 id="引用类型-1"><a href="#引用类型-1" class="headerlink" title="引用类型"></a>引用类型</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go">func main() {
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wade3015/article/details/100149338">map的出生到扩展</a></p>
+<h3 id="引用类型-1"><a href="#引用类型-1" class="headerlink" title="引用类型"></a>引用类型</h3><pre class="line-numbers language-go" data-language="go"><code class="language-go">func main() {
    m:=make(map[string]int)
    m["will"] = 18
    fmt.Println("will的年龄为",m["will"])
