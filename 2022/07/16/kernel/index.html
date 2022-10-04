@@ -441,7 +441,7 @@
 <p>CS（Code Segment Register）：<strong>代码段</strong>寄存器，存在于CPU中，指向CPU <strong>当前执行代码</strong> 在<u>内存中</u>的<strong>区域</strong>（定义了存放代码的存储器的起始地址）。</p>
 <p>IP/EIP（Instruction Pointer）：<strong>指令指针</strong>寄存器，存在于CPU中，记录将要执行的指令在代码段内的偏移地址，和CS组合即为将要执行的指令的内存地址。实模式为绝对地址，指令指针为16位，即IP；保护模式下为线性地址，指令指针为32位，即EIP。</p>
 <p>BIOS程序的入口地址恰恰就是0xFFFF0 ！ 也就是说，BIOS程序的第一条指令就设计在这个位置。</p>
-<p>BIOS在内存中加载中断向量表和中断服务程序：<br><img src="../images/BIOS_loadTable.png"><br><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/BIOS_loadTable.png" alt="BIOS_loadTable"></p>
+<p>BIOS在内存中加载中断向量表和中断服务程序：<br><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/BIOS_loadTable.png" alt="BIOS_loadTable"></p>
 
                 
             </div>
