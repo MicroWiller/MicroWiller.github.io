@@ -6,7 +6,7 @@
   <link href="https://microwiller.github.io/atom.xml" rel="self"/>
   
   <link href="https://microwiller.github.io/"/>
-  <updated>2022-10-04T11:33:01.445Z</updated>
+  <updated>2022-10-04T15:33:47.298Z</updated>
   <id>https://microwiller.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://microwiller.github.io/2022/07/16/kernel/"/>
     <id>https://microwiller.github.io/2022/07/16/kernel/</id>
     <published>2022-07-16T02:25:38.000Z</published>
-    <updated>2022-10-04T11:33:01.445Z</updated>
+    <updated>2022-10-04T15:33:47.298Z</updated>
     
     
       
@@ -62,34 +62,7 @@
     <category term="redis" scheme="https://microwiller.github.io/categories/redis/"/>
     
     
-    <category term="note" scheme="https://microwiller.github.io/tags/note/"/>
-    
     <category term="redis" scheme="https://microwiller.github.io/tags/redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>go</title>
-    <link href="https://microwiller.github.io/2022/05/22/go/"/>
-    <id>https://microwiller.github.io/2022/05/22/go/</id>
-    <published>2022-05-22T07:16:36.000Z</published>
-    <updated>2022-09-24T02:57:19.671Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;面试题&quot;&gt;&lt;a href=&quot;#面试题&quot; class=&quot;headerlink&quot; title=&quot;面试题&quot;&gt;&lt;/a&gt;面试题&lt;/h2&gt;&lt;p&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="go" scheme="https://microwiller.github.io/categories/go/"/>
-    
-    
-    <category term="go" scheme="https://microwiller.github.io/tags/go/"/>
     
     <category term="note" scheme="https://microwiller.github.io/tags/note/"/>
     
@@ -119,6 +92,33 @@
     <category term="note" scheme="https://microwiller.github.io/tags/note/"/>
     
     <category term="shell" scheme="https://microwiller.github.io/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>go</title>
+    <link href="https://microwiller.github.io/2022/05/22/go/"/>
+    <id>https://microwiller.github.io/2022/05/22/go/</id>
+    <published>2022-05-22T07:16:36.000Z</published>
+    <updated>2022-09-24T02:57:19.671Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;面试题&quot;&gt;&lt;a href=&quot;#面试题&quot; class=&quot;headerlink&quot; title=&quot;面试题&quot;&gt;&lt;/a&gt;面试题&lt;/h2&gt;&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="go" scheme="https://microwiller.github.io/categories/go/"/>
+    
+    
+    <category term="note" scheme="https://microwiller.github.io/tags/note/"/>
+    
+    <category term="go" scheme="https://microwiller.github.io/tags/go/"/>
     
   </entry>
   
