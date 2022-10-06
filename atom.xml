@@ -6,7 +6,7 @@
   <link href="https://microwiller.github.io/atom.xml" rel="self"/>
   
   <link href="https://microwiller.github.io/"/>
-  <updated>2022-10-04T15:33:47.298Z</updated>
+  <updated>2022-10-06T08:54:35.751Z</updated>
   <id>https://microwiller.github.io/</id>
   
   <author>
@@ -17,11 +17,39 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>网络编程概述</title>
+    <link href="https://microwiller.github.io/2022/10/05/wang-luo-bian-cheng-gai-shu/"/>
+    <id>https://microwiller.github.io/2022/10/05/wang-luo-bian-cheng-gai-shu/</id>
+    <published>2022-10-05T02:44:35.000Z</published>
+    <updated>2022-10-06T08:54:35.751Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;我们在处理⽹络问题时，经常处理的是 _I/O 问题_，即输⼊和输出；说⽩了就是，如何把⽹卡收到的数据给到指定的程序，程序如何将数据拷⻉到⽹卡。 所以，当数据到达⽹卡之后，操作系统会做哪些操作？程序⼜是怎么接收到的数据呐？&lt;/p&gt;
+&lt;h2 id=&quot;从⽹卡到操作系统&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="network" scheme="https://microwiller.github.io/categories/network/"/>
+    
+    
+    <category term="network" scheme="https://microwiller.github.io/tags/network/"/>
+    
+    <category term="hardware" scheme="https://microwiller.github.io/tags/hardware/"/>
+    
+  </entry>
+  
+  <entry>
     <title>kernel</title>
     <link href="https://microwiller.github.io/2022/07/16/kernel/"/>
     <id>https://microwiller.github.io/2022/07/16/kernel/</id>
     <published>2022-07-16T02:25:38.000Z</published>
-    <updated>2022-10-04T15:33:47.298Z</updated>
+    <updated>2022-10-05T02:58:20.823Z</updated>
     
     
       
@@ -34,7 +62,7 @@
     
     
     
-    <category term="go" scheme="https://microwiller.github.io/categories/go/"/>
+    <category term="linux" scheme="https://microwiller.github.io/categories/linux/"/>
     
     
     <category term="linux" scheme="https://microwiller.github.io/tags/linux/"/>
@@ -62,7 +90,34 @@
     <category term="redis" scheme="https://microwiller.github.io/categories/redis/"/>
     
     
+    <category term="note" scheme="https://microwiller.github.io/tags/note/"/>
+    
     <category term="redis" scheme="https://microwiller.github.io/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>go</title>
+    <link href="https://microwiller.github.io/2022/05/22/go/"/>
+    <id>https://microwiller.github.io/2022/05/22/go/</id>
+    <published>2022-05-22T07:16:36.000Z</published>
+    <updated>2022-09-24T02:57:19.671Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;面试题&quot;&gt;&lt;a href=&quot;#面试题&quot; class=&quot;headerlink&quot; title=&quot;面试题&quot;&gt;&lt;/a&gt;面试题&lt;/h2&gt;&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="go" scheme="https://microwiller.github.io/categories/go/"/>
+    
+    
+    <category term="go" scheme="https://microwiller.github.io/tags/go/"/>
     
     <category term="note" scheme="https://microwiller.github.io/tags/note/"/>
     
@@ -92,33 +147,6 @@
     <category term="note" scheme="https://microwiller.github.io/tags/note/"/>
     
     <category term="shell" scheme="https://microwiller.github.io/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>go</title>
-    <link href="https://microwiller.github.io/2022/05/22/go/"/>
-    <id>https://microwiller.github.io/2022/05/22/go/</id>
-    <published>2022-05-22T07:16:36.000Z</published>
-    <updated>2022-09-24T02:57:19.671Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;面试题&quot;&gt;&lt;a href=&quot;#面试题&quot; class=&quot;headerlink&quot; title=&quot;面试题&quot;&gt;&lt;/a&gt;面试题&lt;/h2&gt;&lt;p&gt;&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="go" scheme="https://microwiller.github.io/categories/go/"/>
-    
-    
-    <category term="note" scheme="https://microwiller.github.io/tags/note/"/>
-    
-    <category term="go" scheme="https://microwiller.github.io/tags/go/"/>
     
   </entry>
   

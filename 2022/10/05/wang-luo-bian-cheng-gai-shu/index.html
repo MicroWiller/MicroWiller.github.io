@@ -1,0 +1,1470 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="网络编程概述, 凌波威步～">
+    <meta name="description" content="网上已有 I/O 模型、异步编程、内存映射，select/epoll 等编程模型 的优秀⽂章，从中⼤受启发，但始终感觉 没有串联起来；究其本质，都是为了解决⽹络问题题；本⽂尝试想将这些知识点串联起来，层层递进，读完后可以形成关于⽹络编程的知识图谱。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    
+
+    <title>网络编程概述 | 凌波威步～</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.2.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="凌波威步～" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">凌波威步～</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">凌波威步～</div>
+        <div class="logo-desc">
+            
+            得之坦然，失之淡然，争其必然，顺其自然
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/../images/network_code.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">网络编程概述</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/network/">
+                                <span class="chip bg-color">network</span>
+                            </a>
+                        
+                            <a href="/tags/hardware/">
+                                <span class="chip bg-color">hardware</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/network/" class="post-category">
+                                network
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-10-05
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2022-10-06
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    4.5k
+                </div>
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>我们在处理⽹络问题时，经常处理的是 _I/O 问题_，即输⼊和输出；说⽩了就是，如何把⽹卡收到的数据给到指定的程序，程序如何将数据拷⻉到⽹卡。 所以，当数据到达⽹卡之后，操作系统会做哪些操作？程序⼜是怎么接收到的数据呐？</p>
+<h2 id="从⽹卡到操作系统"><a href="#从⽹卡到操作系统" class="headerlink" title="从⽹卡到操作系统"></a>从⽹卡到操作系统</h2><p><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/networkCardToProcess.png" alt="networkCardToProcess"></p>
+<p>从上图可以看出，Frames（传⼊⽹卡的数据这⾥抽象为Frames，⼀个 Frame 是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82">数据链路层</a>的传输单位或封包）到达⽹卡之后，⾸先需要把数据拷⻉到内存；⽤户进程的访问，需要再拷⻉⼀次。</p>
+<p>注意，将数据从内存中的⼀个区域拷⻉到另⼀个区域，这是⼀个 CPU 密集型操作。数据的拷⻉, 归根结底要⼀个字节⼀个字节去做。</p>
+<p>从⽹卡到内核空间的这步操作，可以⽤ DMA（Direct Memory Access）技术控制。<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9B%B4%E6%8E%A5%E8%A8%98%E6%86%B6%E9%AB%94%E5%AD%98%E5%8F%96">DMA</a> 是⼀种⼩型设备，⽤ DMA 拷⻉数据可以不使⽤ CPU，从⽽节省计算资源。遗憾的是，通常我们写程序的时候，并不能直接控制 DMA，因此 DMA 仅仅⽤于硬件设备传输数据到内存中，这解决了⽹卡到内存的拷⻉。不过内核到⽤户空间的这次拷⻉，可以使⽤内存映射技术，将内核空间的数据映射到⽤户空间。</p>
+<p>Linux 中⽤⼀个<strong>双向链表</strong>作为缓冲区，之所以这样做，是因为⽹卡没有⼤量的内存空间，只能做简单的缓冲，所以必须 赶紧将它们保存下来。如上图中的 Buffer，看上去像⼀个有很多个凹槽的线性结构，每个凹槽（节点）可以存储⼀个封包，这个封包可以从⽹络层看（IP封包），也可以从传输层看（TCP封包）。操作系统不断地从 Buffer 中取出数据， 数据通过⼀个协议栈，可以把它理解成很多个协议的集合。在协议栈中，数据封包找到对应的协议程序处理完之后，就会形成 Socket ⽂件。</p>
+<p>在⾼并发的场景下，如果请求量级过⼤，把buffer沾满了；此时，操作系统就会拒绝服务。这就是⽹络上⼀种常⽤攻击⽅式的原理，<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E9%98%BB%E6%96%B7%E6%9C%8D%E5%8B%99%E6%94%BB%E6%93%8A">DoS攻击</a>。</p>
+<p>这里完整的流程是：⽹卡使⽤ DMA 技术，将 Frame 写⼊缓冲区（Buffer），然后再触发<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%B7">CPU中断</a>交给操作系统处理，随后操作系统从缓冲区中不断取出 Frame，通过协进栈（具体的协议）进⾏还原，将还原后的Socket供⽤户程序使⽤。</p>
+<p>那Socket⼜是怎么和⽤户程序进⾏数据传输的呐？</p>
+<h2 id="Socket是什么"><a href="#Socket是什么" class="headerlink" title="Socket是什么"></a>Socket是什么</h2><p>⾸先，Socket 是⽂件（UNIX系）；在⽂件的基础上，⼜封装了⼀段程序；这段程序提供了⼀组API，负责数据传输。 但对于进程⽽⾔，Socket更多的是⼀种编程模型，将其抽象出来，⽽不管各种操作系统的具体实现。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/socket.png" alt="socket"></p>
+<p>如上图所示，Socket 连接了应⽤和协议，客户端将数据发送给在客户端侧的Socket，然后客户端侧的 Socket 将数据 发送给服务端侧的 Socket 。Socket 负责提供通信能⼒，并处理底层的 TCP/UDP 连接，具体的操作都是由Socket进⾏封装。具体来说，对于 UNIX 系的操作系统，是利⽤ Socket ⽂件系统，⼀种特殊的⽂件——每个都是⼀个双向的管道。</p>
+<p>那么作为⼀个服务端的应⽤，如何知道有哪些 Socket 呢？也就是，怎么知道哪些客户端连接过来了呢？这是就需要⼀ 种特殊类型的 Socket，也就是服务端 Socket ⽂件。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/server_socket.png" alt="server_socket"></p>
+<p>如上图所示，当⼀个客户端连接服务端时，服务端OS 会创建⼀个连接客户端的Socket⽂件；然后服务端OS 会将这个⽂件的⽂件描述符，写⼊服务端程序创建的服务端 Socket ⽂件中。这就是服务端Socket⽂件的特殊之处，不仅仅是双向管道，还相当于⼀个客户端 Socket 的<code>⽬录</code>；这样线程就可以通过 accept() 操作，每次从服务端Socket⽂件，拿⾛⼀个客户端⽂件描述符。线程拿到客户端⽂件描述符，_就相当于拿到了和客户端进⾏通信的接⼝_。</p>
+<p>Socket和⽤户程序之间的数据传输: 当线程想要读取 Client 传输来的数据时，就从连接客户端的Socket ⽂件 中读取数据；当线程想要发送数据到 Client 时，就向连接客户端的Socket ⽂件中写⼊数据。</p>
+<p>这⾥有个⼩细节，Linux 中的管道⽂件都是单向的，Socket ⽂件是⼀种区别于其操作系统管道的单独的实现。</p>
+<p>可是⼀台服务器⾥⾯，⼤概率不仅仅只有⼀个服务；那⼀个客户端连接进来，怎么知道连接到哪个服务，把 FD 写到哪个服务的服务端Socket呐？</p>
+<p>所以为了<strong>区分不同服务</strong>，对于服务端 Socket ⽂件，需要设置它监听的<code>端⼝</code>。⽐如 Nginx 监听 80 端⼝、Node 监听 3000 端⼝、SSH 监听 22 端⼝、Tomcat 监听 8080 端⼝（可修改）。</p>
+<p>这样操作系统就会，把连接到不同端⼝的客户端Socket分类，将该 <em>Socket⽂件</em> 的FD 存到对应不同端⼝的 <em>服务端Socket⽂件</em> 中。因此，服务端监听端⼝的本质，是将服务端 Socket ⽂件和端⼝绑定，这个操作也称为 <code>bind</code>。</p>
+<p>那其中⼀个客户端有新的数据传输过来，服务端服务是如何确定是哪个Socket连接传输过来的呐？</p>
+<h2 id="I-x2F-O-多路复⽤技术"><a href="#I-x2F-O-多路复⽤技术" class="headerlink" title="I/O 多路复⽤技术"></a>I/O 多路复⽤技术</h2><p><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/multiplexing.png" alt="multiplexing"></p>
+<p>⾸先，服务端程序会定期扫描 <em>服务端Socket⽂件</em> 的变更，来了解有哪些客户端想要连接进来。</p>
+<p>如果在服务端 Socket ⽂件中读取到⼀个客户端连接的⽂件描述符，就会将这个⽂件描述符实例化成⼀个 Socket对象；随后，将这个Socket对象加⼊到服务端程序的⼀个集合中。</p>
+<p>通过这个过程，服务端程序从操作系统的所有的Socket中，筛选出了⾃⼰关注 的⼀个<code>⼦集</code>。</p>
+<p>服务端程序，定期的遍历这个Socket⼦集，来查看每个Socket对象背后的Socket⽂件状态，从⽽确定是否有新的数据从客户端传输过来。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/server_multiplex_socket.png" alt="server_multiplex_socket"></p>
+<p>这种通过⼀个线程就可以响应多个客户端的连接，被称作<code>I/O多路复⽤技术</code>。</p>
+<p>处理 I/O 多路复⽤的问题，需要操作系统提供内核级别的⽀持。Linux 下有三种提供 I/O 多路复⽤的 API系统调⽤，分 别是：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Select_(Unix)">select</a> / poll / <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Epoll">epoll</a>；freeBSD 系统下有 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Kqueue">kqueue</a>，以及 Windows 系统下有 iocp。</p>
+<p>内核了解⽹络的状态，因此不难知道具体发⽣了什么消息，⽐如内核知道某个 Socket⽂件状态发⽣了变化。</p>
+<p>但是内核 如何知道该把哪个消息给哪个进程呢？</p>
+<p>进程和Socket⽂件是多对多的关系，⼀个进程有多个Socket⽂件，⼀个Socket⽂件可能被多个进程使⽤，而⼀个Socket⽂件⾃身也有不同的消息类型。</p>
+<p>因此在 I/O 多路复⽤技术中，服务端程序中需要有⼀个<code>数据结构</code>，来描述⾃⼰会关注哪些Sockect⽂件的哪些消息（读、写、异常等）。</p>
+<p>这个数据结构的设计，有两种⽅案：</p>
+<p>⼀种是<strong>线性结构</strong>，如数组、链表等，每次内核产⽣消息，就遍历这个线性结构（O(n)），看看这个消息是不是该程序关注的。</p>
+<p>另⼀种是<strong>索引结构</strong>，如红⿊树、B树等(O(logn))，内核发⽣了消息，可以通过索引结构⻢上知道这个消息进程关不关注。这也是Select/poll和epoll 最本质的区别。</p>
+<h2 id="Select"><a href="#Select" class="headerlink" title="Select"></a>Select</h2><p>select 和 poll 都采⽤线性结构，在C程序中，该系统调⽤在 sys/select.h 或 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Unistd.h">unistd.h</a> 中声明，语法如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">#include &lt;sys/select.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+int select(int nfds, fd_set* readfds, fd_set* writefds, fd_set* errorfds, struct timeval* timeout);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>为了维护fd_set类型的参数，会使⽤下⾯四个宏：FD_SET(), FD_CLR(), FD_ZERO() 和 FD_ISSET()。</p>
+<p>返回值：这个函数将返回描述符集的个数，如果超时返回为0，错误则返回-1。</p>
+<p>每次 select 操作会<strong>阻塞</strong>当前线程，在阻塞期间所有操作系统产⽣的每个消息，都会通过<code>遍历</code>的⼿段查看是否在 3 个集合当中。</p>
+<p>如下⾯这段程序所示：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">fd_set read_fd_set, write_fd_set, error_fd_set;
+while(true) {
+ select(..., &amp;read_fd_set, &amp;write_fd_set, &amp;error_fd_set); 
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>⽤户程序可以根据不同集合中，是否有某个 Socket 判断发⽣的消息类型，程序如下所示：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">fd_set read_fd_set, write_fd_set, error_fd_set;
+while(true) {
+ select(..., &amp;read_fd_set, &amp;write_fd_set, &amp;error_fd_set); 
+ for (i = 0; i &lt; FD_SETSIZE; ++i)
+ if (FD_ISSET (i, &amp;read_fd_set)){
+ // Socket可以读取
+ } else if(FD_ISSET(i, &amp;write_fd_set)) {
+ // Socket可以写入
+ } else if(FD_ISSET(i, &amp;error_fd_set)) {
+ // Socket发生错误
+ } 
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上⾯程序中的 FD_SETSIZE 是⼀个系统的默认设置，32位机默认是1024个，64位机默认是2048，具体数⽬可以 <code>cat /proc/sys/fs/file-max</code> 察看，⼀般来说这个数⽬和系统内存关系很⼤。因为 Select 对 Socket 进⾏扫描时是线性扫描， 即采⽤轮询的⽅法，效率较低，当并发请求过多的时候， Select 就⽆能为⼒了。</p>
+<h2 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h2><p>从写程序的⻆度来看，select 并不是⼀个很好的编程模型。⼀个好的编程模型应该直达本质：当⽹络请求发⽣状态变化的时候，核⼼是会发⽣<code>事件</code>。</p>
+<p>_将消息抽象成事件_，⽤户不需要⽤ select 来设置⾃每个集合，⽽是可以通过系统的 API 直接拿到对应的事件，从⽽处理对应的⽂件描述符。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">while(true) {
+ events = poll(fds, ...)
+ for(evt in events) {
+ fd = evt.fd;
+ type = evt.revents;
+ if(type &amp; POLLIN ) {
+ // 有数据需要读，读取fd中的数据
+ } else if(type &amp; POLLOUT) {
+ // 可以写入数据
+ } 
+ else ...
+ }
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>上⾯这段伪代码就是⼀个更好的编程模型，具体的分析如下：</p>
+<ol>
+<li>poll 是⼀个<strong>阻塞调⽤</strong>，它将某段时间内 <em>操作系统内发⽣的且进程关注的</em> 事件告知⽤户程序；</li>
+<li>⽤户程序通过直接调⽤ poll 函数拿到事件； </li>
+<li>poll 函数的第⼀个参数告知内核 poll 关注哪些 Socket ； </li>
+<li>poll 调⽤后，经过⼀段时间的等待（阻塞），就拿到了是⼀个事件的数组； </li>
+<li>通过遍历这个数组中的事件，能够知道关联的⽂件描述符和事件类型； </li>
+<li>通过事件类型判断接下来该进⾏读取还是写⼊操作； </li>
+<li>通过⽂件描述符，可以进⾏实际地读、写、错误处理。</li>
+</ol>
+<p>poll 虽然优化了编程模型，但是从<code>性能⻆度</code>分析，它和 select 差距不⼤。因为内核在产⽣⼀个事件之后，依然需要遍历 poll 关注的所有⽂件描述符来确定这条事件是否跟⽤户程序相关。</p>
+<h2 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h2><p>为了解决上述问题，epoll 通过更好的⽅案实现，_从操作系统订阅消息_：epoll 将进程关注的⽂件描述符存⼊⼀棵<code>⼆叉搜索树</code>(通常是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BA%A2%E9%BB%91%E6%A0%91">红⿊树</a>的实现)。</p>
+<p>在这棵红⿊树当中，Key 是Socket的编号，Value 是Socket关注的消息。</p>
+<p>因此，当内核发⽣了⼀个事件：⽐如 Socket 编号 1000 可以读取。这个时候，进程可以⻢上从红⿊树中找到进程是否关注这个事件（再次感叹，如果代码写复杂了，那肯定是数据结构有问题）。</p>
+<p>下⾯这段程序，对于每⼀个新的客户端连接，都使⽤ accept 拿到这个连接的⽂件描述符，并且创建⼀个客户端的 Socket。然后通过 epoll_ctl 将客户端的⽂件描述符和关注的事件类型放⼊ epoll 实例的红⿊树上，并注册⼀个回调函数。 </p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">// Asynchronous Socket server - accepting multiple clients concurrently,
+	// multiplexing the connections with epoll.
+	//
+	// Eli Bendersky [http://eli.thegreenplace.net]
+	// This code is in the public domain.
+
+	#include &lt;assert.h&gt;
+	#include &lt;errno.h&gt;
+	#include &lt;stdbool.h&gt;
+	#include &lt;stdint.h&gt;
+	#include &lt;stdio.h&gt;
+	#include &lt;stdlib.h&gt;
+	#include &lt;string.h&gt;
+	#include &lt;sys/epoll.h&gt;
+	#include &lt;sys/Socket.h&gt;
+	#include &lt;sys/types.h&gt;
+	#include &lt;unistd.h&gt;
+	#include "utils.h"
+
+	#define MAXFDS 16 * 1024
+
+	typedef enum { INITIAL_ACK, WAIT_FOR_MSG, IN_MSG } ProcessingState;
+
+	#define SENDBUF_SIZE 1024
+
+	typedef struct {
+	  ProcessingState state;
+	  uint8_t sendbuf[SENDBUF_SIZE];
+	  int sendbuf_end;
+	  int sendptr;
+	} peer_state_t;
+
+	// Each peer is globally identified by the file descriptor (fd) it's connected
+	// on. As long as the peer is connected, the fd is unique to it. When a peer
+	// disconnects, a new peer may connect and get the same fd. on_peer_connected
+	// should initialize the state properly to remove any trace of the old peer on
+	// the same fd.
+	peer_state_t global_state[MAXFDS];
+	
+	// Callbacks (on_XXX functions) return this status to the main loop; the status
+	// instructs the loop about the next steps for the fd for which the callback was
+	// invoked.
+	// want_read=true means we want to keep monitoring this fd for reading.
+	// want_write=true means we want to keep monitoring this fd for writing.
+	// When both are false it means the fd is no longer needed and can be closed.
+	typedef struct {
+	  bool want_read;
+	  bool want_write;
+	} fd_status_t;
+	
+	// These constants make creating fd_status_t values less verbose.
+	const fd_status_t fd_status_R = {.want_read = true, .want_write = false};
+	const fd_status_t fd_status_W = {.want_read = false, .want_write = true};
+	const fd_status_t fd_status_RW = {.want_read = true, .want_write = true};
+	const fd_status_t fd_status_NORW = {.want_read = false, .want_write = false};
+	
+	fd_status_t on_peer_connected(int sockfd, const struct sockaddr_in* peer_addr, socklen_t peer_addr_len) {
+	  assert(sockfd &lt; MAXFDS);
+	  report_peer_connected(peer_addr, peer_addr_len);
+	
+	  // Initialize state to send back a '*' to the peer immediately.
+	  peer_state_t* peerstate = &amp;global_state[sockfd];
+	  peerstate-&gt;state = INITIAL_ACK;
+	  peerstate-&gt;sendbuf[0] = '*';
+	  peerstate-&gt;sendptr = 0;
+	  peerstate-&gt;sendbuf_end = 1;
+	
+	  // Signal that this Socket is ready for writing now.
+	  return fd_status_W;
+	}
+
+	fd_status_t on_peer_ready_recv(int sockfd) {
+	  assert(sockfd &lt; MAXFDS);
+	  peer_state_t* peerstate = &amp;global_state[sockfd];
+
+	  if (peerstate-&gt;state == INITIAL_ACK ||peerstate-&gt;sendptr &lt; peerstate-&gt;sendbuf_end) {
+	    // Until the initial ACK has been sent to the peer, there's nothing we
+	    // want to receive. Also, wait until all data staged for sending is sent to
+	    // receive more data.
+	    return fd_status_W;
+	  }
+
+	  uint8_t buf[1024];
+	  int nbytes = recv(sockfd, buf, sizeof buf, 0);
+	  if (nbytes == 0) {
+	    // The peer disconnected.
+	    return fd_status_NORW;
+	  } else if (nbytes &lt; 0) {
+	    if (errno == EAGAIN || errno == EWOULDBLOCK) {
+	      // The Socket is not *really* ready for recv; wait until it is.
+	      return fd_status_R;
+	    } else {
+	      perror_die("recv");
+	    }
+	  }
+	  bool ready_to_send = false;
+	  for (int i = 0; i &lt; nbytes; ++i) {
+	    switch (peerstate-&gt;state) {
+	    case INITIAL_ACK:
+	      assert(0 &amp;&amp; "can't reach here");
+	      break;
+	    case WAIT_FOR_MSG:
+	      if (buf[i] == '^') {
+	        peerstate-&gt;state = IN_MSG;
+	      }
+	      break;
+	    case IN_MSG:
+	      if (buf[i] == '$') {
+	        peerstate-&gt;state = WAIT_FOR_MSG;
+	      } else {
+	        assert(peerstate-&gt;sendbuf_end &lt; SENDBUF_SIZE);
+	        peerstate-&gt;sendbuf[peerstate-&gt;sendbuf_end++] = buf[i] + 1;
+	        ready_to_send = true;
+	      }
+	      break;
+	    }
+	  }
+
+	  // Report reading readiness iff there's nothing to send to the peer as a
+	  // result of the latest recv.
+	  return (fd_status_t){.want_read = !ready_to_send, .want_write = ready_to_send};
+	}
+
+	fd_status_t on_peer_ready_send(int sockfd) {
+	  assert(sockfd &lt; MAXFDS);
+	  peer_state_t* peerstate = &amp;global_state[sockfd];
+	  if (peerstate-&gt;sendptr &gt;= peerstate-&gt;sendbuf_end) {
+	    // Nothing to send.
+	    return fd_status_RW;
+	  }
+	  int sendlen = peerstate-&gt;sendbuf_end - peerstate-&gt;sendptr;
+	  int nsent = send(sockfd, &amp;peerstate-&gt;sendbuf[peerstate-&gt;sendptr], sendlen, 0);
+	  if (nsent == -1) {
+	    if (errno == EAGAIN || errno == EWOULDBLOCK) {
+	      return fd_status_W;
+	    } else {
+	      perror_die("send");
+	    }
+	  }
+	  if (nsent &lt; sendlen) {
+	    peerstate-&gt;sendptr += nsent;
+	    return fd_status_W;
+	  } else {
+	    // Everything was sent successfully; reset the send queue.
+	    peerstate-&gt;sendptr = 0;
+	    peerstate-&gt;sendbuf_end = 0;
+	    // Special-case state transition in if we were in INITIAL_ACK until now.
+	    if (peerstate-&gt;state == INITIAL_ACK) {
+	      peerstate-&gt;state = WAIT_FOR_MSG;
+	    }
+	    return fd_status_R;
+	  }
+	}
+
+	int main(int argc, const char** argv) {
+	  setvbuf(stdout, NULL, _IONBF, 0);
+	  int portnum = 9090;
+	  if (argc &gt;= 2) {
+	    portnum = atoi(argv[1]);
+	  }
+	  printf("Serving on port %d\n", portnum);
+	  int listener_sockfd = listen_inet_Socket(portnum);
+	  make_Socket_non_blocking(listener_sockfd);
+	  int epollfd = epoll_create1(0);
+	  if (epollfd &lt; 0) {
+	    perror_die("epoll_create1");
+	  }
+	  struct epoll_event accept_event;
+	  accept_event.data.fd = listener_sockfd;
+	  accept_event.events = EPOLLIN;
+	  if (epoll_ctl(epollfd, EPOLL_CTL_ADD, listener_sockfd, &amp;accept_event) &lt; 0) {
+	    perror_die("epoll_ctl EPOLL_CTL_ADD");
+	  }
+	  struct epoll_event* events = calloc(MAXFDS, sizeof(struct epoll_event));
+	  if (events == NULL) {
+	    die("Unable to allocate memory for epoll_events");
+	  }
+
+	  while (1) {
+	    int nready = epoll_wait(epollfd, events, MAXFDS, -1);
+	    for (int i = 0; i &lt; nready; i++) {
+	      if (events[i].events &amp; EPOLLERR) {
+	        perror_die("epoll_wait returned EPOLLERR");
+	      }
+	
+	      if (events[i].data.fd == listener_sockfd) {
+	        // The listening Socket is ready; this means a new peer is connecting.
+	        struct sockaddr_in peer_addr;
+	        socklen_t peer_addr_len = sizeof(peer_addr);
+	        int newsockfd = accept(listener_sockfd, (struct sockaddr*)&amp;peer_addr, &amp;peer_addr_len);
+	        if (newsockfd &lt; 0) {
+	          if (errno == EAGAIN || errno == EWOULDBLOCK) {
+	            // This can happen due to the nonblocking Socket mode; in this
+	            // case don't do anything, but print a notice (since these events
+	            // are extremely rare and interesting to observe...)
+	            printf("accept returned EAGAIN or EWOULDBLOCK\n");
+	          } else {
+	            perror_die("accept");
+	          }
+	        } else {
+	          make_Socket_non_blocking(newsockfd);
+	          if (newsockfd &gt;= MAXFDS) {
+	            die("Socket fd (%d) &gt;= MAXFDS (%d)", newsockfd, MAXFDS);
+	          }
+
+	          fd_status_t status = on_peer_connected(newsockfd, &amp;peer_addr, peer_addr_len);
+	          struct epoll_event event = {0};
+	          event.data.fd = newsockfd;
+	          if (status.want_read) {
+	            event.events |= EPOLLIN;
+	          }
+	          if (status.want_write) {
+	            event.events |= EPOLLOUT;
+	          }
+	          if (epoll_ctl(epollfd, EPOLL_CTL_ADD, newsockfd, &amp;event) &lt; 0) {
+	            perror_die("epoll_ctl EPOLL_CTL_ADD");
+	          }
+	        }
+	      } else {
+	        // A peer Socket is ready.
+	        if (events[i].events &amp; EPOLLIN) {
+	          // Ready for reading.
+	          int fd = events[i].data.fd;
+	          fd_status_t status = on_peer_ready_recv(fd);
+	          struct epoll_event event = {0};
+	          event.data.fd = fd;
+	          if (status.want_read) {
+	            event.events |= EPOLLIN;
+	          }
+	          if (status.want_write) {
+	            event.events |= EPOLLOUT;
+	          }
+	          if (event.events == 0) {
+	            printf("Socket %d closing\n", fd);
+	            if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) &lt; 0) {
+	              perror_die("epoll_ctl EPOLL_CTL_DEL");
+	            }
+	            close(fd);
+	          } else if (epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &amp;event) &lt; 0) {
+	            perror_die("epoll_ctl EPOLL_CTL_MOD");
+	          }
+	        } else if (events[i].events &amp; EPOLLOUT) {
+	          // Ready for writing.
+	          int fd = events[i].data.fd;
+	          fd_status_t status = on_peer_ready_send(fd);
+	          struct epoll_event event = {0};
+	          event.data.fd = fd;
+
+	          if (status.want_read) {
+	            event.events |= EPOLLIN;
+	          }
+
+	          if (status.want_write) {
+	            event.events |= EPOLLOUT;
+	          }
+
+	          if (event.events == 0) {
+	            printf("Socket %d closing\n", fd);
+	            if (epoll_ctl(epollfd, EPOLL_CTL_DEL, fd, NULL) &lt; 0) {
+	              perror_die("epoll_ctl EPOLL_CTL_DEL");
+	            }
+	            close(fd);
+	          } else if (epoll_ctl(epollfd, EPOLL_CTL_MOD, fd, &amp;event) &lt; 0) {
+	            perror_die("epoll_ctl EPOLL_CTL_MOD");
+	          }
+	        }
+	      }
+	    }
+	  }
+	  return 0;
+	}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>操作系统每次监测到⼀个新的消息产⽣，就会通过红⿊树对⽐这个消息是不是进程关注的（当然这段代码你看不到，因为它在内核程序中）。当有关注的事件发⽣时，epoll 会将事件添加到就绪链表中。⽤户调⽤epoll_wait时候，就会从链表中返回⼀个事件。</p>
+<p>如果链表中没有事件，并且 epoll_wait 中的参数 timeout 设置为 0，epoll_wait可以⻢上返回，因此epoll是⼀个<code>⾮阻塞模型</code>。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
+// 当 timeout 为 0 时，epoll_wait 永远会立即返回。而 timeout 为 -1 时，epoll_wait 会一直阻塞直到任一已注册的事件变为就绪。当 timeout 为一正整数时，epoll 会阻塞直到计时 timeout 毫秒终了或已注册的事件变为就绪。
+// 因为内核调度延迟，阻塞的时间可能会略微超过 timeout 毫秒。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>epoll⾮阻塞模型的核⼼价值，并不是性能更好。毕竟当⾼并发真的来临时，所有的 CPU 资源，所有的⽹络资源可能都会被⽤完。这个时候⽆论是阻塞还是⾮阻塞，结果都不会相差太⼤（前提是程序没有写错）。</p>
+<p>epoll有 2 个最⼤的优势：</p>
+<ol>
+<li>内部使⽤红⿊树减少了内核的⽐较操作；</li>
+<li>对程序员⽽⾔，⾮阻塞的模型更容易处理各种各样的情况。程序员习惯了写出每⼀条语句就可以⻢上得到结果，这样不容易出 Bug。</li>
+</ol>
+<h2 id="I-x2F-O-模型"><a href="#I-x2F-O-模型" class="headerlink" title="I/O 模型"></a>I/O 模型</h2><p>从以上可知，select/poll 是<code>阻塞模型</code>，epoll 是<code>⾮阻塞模型</code>，阻塞和⾮阻塞强调的是 _线程的状态_。</p>
+<p>BIO（Blocking I/O，阻塞 I/O），API 的设计会阻塞程序调⽤。⽐如：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">byte a = readKey()<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>假设 readKey ⽅法会从键盘中读取⼀个⽤户的按键，如果是阻塞 I/O 的设计，ReadKey 会阻塞当前⽤户线程 <em>直到</em> ⽤户按键。</p>
+<p>这个阻塞指的是线程进⼊阻塞态。进⼊阻塞态的线程，状态会被存在内存中，执⾏会被中断，也就是不会占⽤ CPU 资源。阻塞态的线程要恢复执⾏，先要进⼊就绪态排队，然后轮到⾃⼰才能够继续执⾏。</p>
+<p>从⼀个线程执⾏切换到另⼀个线程执⾏，也叫作线程的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%B8%8A%E4%B8%8B%E6%96%87%E4%BA%A4%E6%8F%9B">上下⽂切换</a>（Context Switch），是⼀个相对耗时的操作。</p>
+<h2 id="流、缓冲区"><a href="#流、缓冲区" class="headerlink" title="流、缓冲区"></a>流、缓冲区</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+                
+            </div>
+            <hr/>
+
+            
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/network/">
+                                    <span class="chip bg-color">network</span>
+                                </a>
+                            
+                                <a href="/tags/hardware/">
+                                    <span class="chip bg-color">hardware</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/10/05/wang-luo-bian-cheng-gai-shu/">
+                    <div class="card-image">
+                        
+                        <img src="/../images/network_code.png" class="responsive-img" alt="网络编程概述">
+                        
+                        <span class="card-title">网络编程概述</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            网上已有 I/O 模型、异步编程、内存映射，select/epoll 等编程模型 的优秀⽂章，从中⼤受启发，但始终感觉 没有串联起来；究其本质，都是为了解决⽹络问题题；本⽂尝试想将这些知识点串联起来，层层递进，读完后可以形成关于⽹络编程的知识图谱。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-10-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/network/" class="post-category">
+                                    network
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/network/">
+                        <span class="chip bg-color">network</span>
+                    </a>
+                    
+                    <a href="/tags/hardware/">
+                        <span class="chip bg-color">hardware</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/07/16/kernel/">
+                    <div class="card-image">
+                        
+                        <img src="/../images/linux_kernel.png" class="responsive-img" alt="kernel">
+                        
+                        <span class="card-title">kernel</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            linux kernel notes
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/linux/" class="post-category">
+                                    linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/linux/">
+                        <span class="chip bg-color">linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 凌波威步～<br />'
+            + '文章作者: Nice Luo<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="7366720683"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022</span>
+            
+            <a href="/about" target="_blank">Nice Luo</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/MicroWiller" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:willer_personal@foxmail.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+    <a href="https://www.facebook.com/xxx" class="tooltipped" target="_blank" data-tooltip="关注我的Facebook: https://www.facebook.com/xxx" data-position="top" data-delay="50">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+
+
+    <a href="https://twitter.com/xxx" class="tooltipped" target="_blank" data-tooltip="关注我的Twitter: https://twitter.com/xxx" data-position="top" data-delay="50">
+        <i class="fab fa-twitter"></i>
+    </a>
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1019614033" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1019614033" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/xxx" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/xxx" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/xxx" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/xxx" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
