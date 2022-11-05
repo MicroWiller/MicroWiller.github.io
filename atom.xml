@@ -6,7 +6,7 @@
   <link href="https://microwiller.github.io/atom.xml" rel="self"/>
   
   <link href="https://microwiller.github.io/"/>
-  <updated>2022-10-06T12:47:39.436Z</updated>
+  <updated>2022-11-05T09:15:14.316Z</updated>
   <id>https://microwiller.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql</title>
+    <link href="https://microwiller.github.io/2022/10/15/mysql/"/>
+    <id>https://microwiller.github.io/2022/10/15/mysql/</id>
+    <published>2022-10-15T05:11:57.000Z</published>
+    <updated>2022-11-05T09:15:14.316Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;MySQL&quot;&gt;&lt;a href=&quot;#MySQL&quot; class=&quot;headerlink&quot; title=&quot;MySQL&quot;&gt;&lt;/a&gt;MySQL&lt;/h1&gt;&lt;h2 id=&quot;运维部署&quot;&gt;&lt;a href=&quot;#运维部署&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="mysql" scheme="https://microwiller.github.io/categories/mysql/"/>
+    
+    
+    <category term="mysql" scheme="https://microwiller.github.io/tags/mysql/"/>
+    
+  </entry>
   
   <entry>
     <title>网络编程概述</title>
