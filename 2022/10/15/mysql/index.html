@@ -402,14 +402,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-11-05
+                    2022-11-06
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9.9k
+                    10.2k
                 </div>
                 
 
@@ -940,31 +940,112 @@ explain select * from person where uname = 'nice';<span aria-hidden="true" class
 <img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/case1.png" style="zoom:67%;">
 
 <!-- ![](MySQL.assets/20200211155719718_1361.png ) -->
-<p>第一行（执行顺序4）：id列为1，表示是union里的第一个select, select_type列的primary表示该查询为外层查询，table列被标<br>记为<derived3>，表示查询结果来自一个衍生表，其中derived3中3代表该查询衍生自第三个select查询，即id为3的select。【select d1.name……1】<br>第二行（执行顺序2）：id为3，是整个查询中第三个select的一部分。因查询包含在from中，所以为derived。【select id,name<br>from t1 where other column=”】<br>第三行（执行顺序3）：select列表中的子查询select_type 为subquery，为整个查询中的第二个select.【select id from t3】<br>第四行（执行顺序1）：select type为union，说明第四个select是union里的第二个select，最先执行【select name,id from t2】<br>第五行（执行顺序5）：代表从union的临时表中读取行的阶段，table列的&lt;union1,4&gt;表示用第一个和第四个select的结果进行<br>union操作。【两个结果union操作】</derived3></p>
-<h2 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h2><h4 id="索引分析"><a href="#索引分析" class="headerlink" title="索引分析"></a>索引分析</h4><h5 id="单表"><a href="#单表" class="headerlink" title="单表"></a>单表</h5><p>![](_v_images/20200211164234852_19905.png =700x)</p>
+<ul>
+<li>第一行（执行顺序4）：id列为1，表示是union里的第一个select, select_type列的primary表示该查询为外层查询，table列被标<br>记为<derived3>，表示查询结果来自一个衍生表，其中derived3中3代表该查询衍生自第三个select查询，即id为3的select。【select d1.name……1】</derived3></li>
+<li>第二行（执行顺序2）：id为3，是整个查询中第三个select的一部分。因查询包含在from中，所以为derived。【select id,name<br>from t1 where other column=’’】</li>
+<li>第三行（执行顺序3）：select列表中的子查询select_type 为subquery，为整个查询中的第二个select.【select id from t3】</li>
+<li>第四行（执行顺序1）：select type为union，说明第四个select是union里的第二个select，最先执行【select name,id from t2】</li>
+<li>第五行（执行顺序5）：代表从union的临时表中读取行的阶段，table列的&lt;union1,4&gt;表示用第一个和第四个select的结果进行<br>union操作。【两个结果union操作】</li>
+</ul>
+<h2 id="索引优化"><a href="#索引优化" class="headerlink" title="索引优化"></a>索引优化</h2><h3 id="索引分析"><a href="#索引分析" class="headerlink" title="索引分析"></a>索引分析</h3><h4 id="单表"><a href="#单表" class="headerlink" title="单表"></a>单表</h4><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/one_table.png" style="zoom:47%;">
+<!-- ![one_table](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/one_table.png) -->
+<!-- ![](_v_images/20200211164234852_19905.png =700x) -->
+
 <blockquote>
-<p>from 前面的 字段(column) 最好是<code>等于常量</code>，<code>不要范围</code></p>
+<p>from 前面的 字段(column) 最好是等于常量，<em>不要范围</em></p>
 </blockquote>
-<p>如果实在避免不了：<br>![](_v_images/20200211165648365_14988.png =900x)</p>
-<h5 id="两表"><a href="#两表" class="headerlink" title="两表"></a>两表</h5><p>![](_v_images/20200211172835729_20464.png =800x)</p>
-<blockquote>
-<p><code>左连接，右索引</code>（右表搜索行，左边一定都有）；<code>右连接，左索引</code></p>
-</blockquote>
-<h5 id="三表"><a href="#三表" class="headerlink" title="三表"></a>三表</h5><p><code>左连接，右索引</code>（右表搜索行，左边一定都有）；<code>右连接，左索引</code></p>
-<p>![](_v_images/20200211182903018_4929.png =900x)</p>
-<p>![](_v_images/20200211183907016_14454.png =800x)</p>
-<p>当<code>无法保证</code> 被驱动表的 join条件字段被索引 且内存资源充足的条件下，不要太吝啬JoinBuffer的设置</p>
-<h4 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h4><p>![](_v_images/20200211201854783_10970.png =800x)</p>
-<p>索引多列，要遵守<em>最左前缀法则</em>；查询从索引的<code>最左前列</code>开始 并且<code>不跳过索引中的列</code> ==》带头大哥不能死，中间兄弟不能断<br>![](_v_images/20200211200555547_24326.png =500x)</p>
-<p>![](_v_images/20200211201435660_16046.png =700x)</p>
-<p>![](_v_images/20200211203001753_1675.png =800x)<br>![](_v_images/20200211203046694_2571.png =600x)</p>
-<p>尽量使用覆盖索引（ 只访问索引的查询（<em>索引列和查询列一致</em>）），<code>减少select*</code><br>![](_v_images/20200211210938194_24113.png =700x)</p>
-<p>![](_v_images/20200211211406786_28312.png =700x)</p>
-<p>![](_v_images/20200211211749955_15083.png =700x)</p>
-<p>% like 加右边<br>![](_v_images/20200211212251112_13407.png =700x)<br>![](_v_images/20200211212634218_9475.png =400x)<br>覆盖索引来解决</p>
-<p>varchar类型绝对<code>不能失去单引号</code> ==》隐式的类型转换，全表扫描<br>![](_v_images/20200211214450574_8206.png =700x)</p>
-<p>![](_v_images/20200211214758353_6258.png =600x)</p>
-<h5 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h5><p><img src="/MySQL.assets/20200212110832007_11172.png"></p>
+<p>如果实在避免不了，使用下面方法：</p>
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_range_index.png" style="zoom:47%;">
+<!-- ![](_v_images/20200211165648365_14988.png =900x) -->
+<!-- ![no_range_index](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_range_index.png) -->
+
+<h4 id="两表"><a href="#两表" class="headerlink" title="两表"></a>两表</h4><!-- ![](_v_images/20200211172835729_20464.png =800x) -->
+<!-- ![add_index_left](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/add_index_left.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/add_index_left.png" style="zoom:47%;">
+
+<ul>
+<li><code>左连接，右索引</code>（右表搜索行，左边一定都有）</li>
+<li><code>右连接，左索引</code></li>
+</ul>
+<h4 id="三表"><a href="#三表" class="headerlink" title="三表"></a>三表</h4><pre class="line-numbers language-mysal" data-language="mysal"><code class="language-mysal">ALTER TABLE 'phone' ADD INDEX z ( 'card*);
+ALTER TABLE 'book' ADD INDEX Y ('card');
+
+EXPLAIN SELECT * FROM class LEFT JOIN book ON class.card=book.card LEFT JOIN phone ON book.card= phone.card;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Join语句的优化：</p>
+<ul>
+<li>尽可能减少Join语句中的NestedLoop的循环总次数：“永远用小结果集，驱动大的结果集”</li>
+<li>优先优化NestedLoop的内园循环</li>
+<li>保证Join语句中被驱动表上，Join条件字段 已经被索引</li>
+</ul>
+<!-- ![](_v_images/20200211182903018_4929.png =900x) -->
+<!-- ![](_v_images/20200211183907016_14454.png =800x) -->
+
+<p>当<code>无法保证</code> 被驱动表的 join条件字段被索引，且内存资源充足的条件下，不要太吝啬JoinBuffer的设置</p>
+<h4 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h4><!-- ![](_v_images/20200211201854783_10970.png =800x) -->
+<p>口诀：</p>
+<ol>
+<li>全值匹配我最爱</li>
+<li>最佳左前缀法则</li>
+<li>不在索引列上做任何操作（计算、两数、（自动or手动)类型转换），会导致索引失效而转向全表扫描</li>
+<li>Mysql存储引擎，不能使用索引中范围条件右边的列【1/2/3楼，2是范園，3就不能使用】</li>
+<li>尽量使用覆盖索引 (只访问索引的查询(索引列和查询列一致)），减少select *</li>
+<li>mysql 在使用不等于（!= 或者 &lt; &gt;）的时候无法使用索引，会导致全表扫描</li>
+<li>is null ,is not null 也无法使用索引</li>
+<li>like以通配符开头（%abc.），mysql索引失效 会变成全表扫描的操作</li>
+<li>字符串不加单引号索引失效</li>
+<li>少用or,用它来连接时会索引失效</li>
+</ol>
+<p>索引多列，要遵守<em>最左前缀法则</em>：<br>查询从索引的<code>最左前列</code>开始 并且<code>不跳过索引中的列</code><br><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/most_left_rule.png" style="zoom:47%;"></p>
+<!-- ![most_left_rule](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/most_left_rule.png) -->
+<!-- ![](_v_images/20200211200555547_24326.png =500x) -->
+
+<p>索引列上操作导致失效：<br><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_op.png" style="zoom:47%;"></p>
+<!-- ![no_work_4_op](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_op.png) -->
+<!-- ![](_v_images/20200211201435660_16046.png =700x) -->
+
+<p>范围查询导致索引失效：<br><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_range.png" style="zoom:47%;"></p>
+<!-- ![no_work_4_range](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_range.png) -->
+<!-- ![](_v_images/20200211203001753_1675.png =800x) -->
+
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_range2.png" style="zoom:47%;">
+<!-- ![no_work_4_range2](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_range2.png) -->
+<!-- ![](_v_images/20200211203046694_2571.png =600x) -->
+
+<p>使用覆盖索引，<code>减少select*</code>：</p>
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/reduce_select_all.png" style="zoom:47%;">
+<!-- ![reduce_select_all](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/reduce_select_all.png) -->
+<!-- ![](_v_images/20200211210938194_24113.png =700x) -->
+
+<p>!= 或者 &lt; 、&gt;，导致失效：<br><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_no.png" style="zoom:47%;"></p>
+<!-- ![no_work_4_no](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_no.png) -->
+<!-- ![](_v_images/20200211211406786_28312.png =700x) -->
+
+<p>is null ,is not null：<br><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_woork_4_null.png" style="zoom:47%;"></p>
+<!-- ![no_woork_4_null](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_woork_4_null.png) -->
+<!-- ![](_v_images/20200211211749955_15083.png =700x) -->
+
+<p>like时，% 加右边：<br><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/like_pos.png" style="zoom:47%;"></p>
+<!-- ![like_pos](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/like_pos.png) -->
+<!-- ![](_v_images/20200211212251112_13407.png =700x) -->
+
+<p>覆盖索引来解决</p>
+<p>varchar类型绝对<code>不能失去单引号</code>：</p>
+<!-- ![](_v_images/20200211214450574_8206.png =700x) -->
+<!-- ![no_work_4_varchar](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_varchar.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_varchar.png" style="zoom:47%;">
+
+<ul>
+<li>隐式的类型转换，全表扫描</li>
+<li>在转换规则中，这里的情况属于其他，两个比较值都会被转换成浮点型</li>
+<li>即表里面对应的字段值也会被转换，所以这里走的是全表扫面</li>
+</ul>
+<p>or：</p>
+<!-- ![](_v_images/20200211214758353_6258.png =600x) -->
+<!-- ![no_work_4_or](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_or.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_or.png" style="zoom:47%;">
+
+<h4 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h4><p><img src="/MySQL.assets/20200212110832007_11172.png"></p>
 <p><img src="/MySQL.assets/20200212111058887_14977.png"></p>
 <h4 id="一般性建议"><a href="#一般性建议" class="headerlink" title="一般性建议"></a>一般性建议</h4><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">create index inx_test03_c1234 on test03(c1,c2,c3,c4);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>![](_v_images/20200212095703446_20072.png =800x)</p>
