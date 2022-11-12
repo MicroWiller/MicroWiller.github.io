@@ -402,14 +402,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-11-06
+                    2022-11-12
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    10.2k
+                    10.7k
                 </div>
                 
 
@@ -1045,25 +1045,55 @@ EXPLAIN SELECT * FROM class LEFT JOIN book ON class.card=book.card LEFT JOIN pho
 <!-- ![no_work_4_or](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_or.png) -->
 <img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/no_work_4_or.png" style="zoom:47%;">
 
-<h4 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h4><p><img src="/MySQL.assets/20200212110832007_11172.png"></p>
-<p><img src="/MySQL.assets/20200212111058887_14977.png"></p>
+
 <h4 id="一般性建议"><a href="#一般性建议" class="headerlink" title="一般性建议"></a>一般性建议</h4><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">create index inx_test03_c1234 on test03(c1,c2,c3,c4);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>![](_v_images/20200212095703446_20072.png =800x)</p>
-<p>![](_v_images/20200212101123420_11963.png =800x)</p>
-<p>![](_v_images/20200212102221930_19708.png =800x)</p>
+
+<p>常量级别，顺序无关：</p>
+<!-- ![](_v_images/20200212095703446_20072.png =800x) -->
+<!-- ![constant_level](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/constant_level.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/constant_level.png" style="zoom:47%;">
+
+<p>范围后失效：</p>
+<!-- ![](_v_images/20200212101123420_11963.png =800x)
+![range_type](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/range_type.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/range_type.png" style="zoom:47%;">
+
+<p>order by：</p>
+<!-- ![](_v_images/20200212102221930_19708.png =800x)
+![ref_order_by](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/ref_order_by.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/ref_order_by.png" style="zoom:47%;">
+
+<p>索引使用和 联合索引键的顺序，尽量跟排序一致（<code>充分利用已有的排序</code>，<strong>避免</strong>MySQL内排序）</p>
+<!-- ![](_v_images/20200212103341805_31945.png =800x)
+![order_by_and_sunxu](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_and_sunxu.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_and_sunxu.png" style="zoom:47%;">
+
+<!-- ![](_v_images/20200212104524203_19123.png =800x)
+![order_by_c2](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_c2.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_c2.png" style="zoom:47%;">
+
 <blockquote>
-<p>索引使用和建的顺序 尽量跟 排序一致（<code>充分利用已有的排序</code>，<strong>避免</strong>MySQL内排序）</p>
+<p>OrderBY 只要没有跟索引的顺序一致, 基本上都会产生<code>filesort</code>，<em>除非排序字段已经是一个常量了</em></p>
 </blockquote>
-<p>![](_v_images/20200212103341805_31945.png =800x)</p>
-<p>![](_v_images/20200212104524203_19123.png =800x)</p>
+<!-- ![](_v_images/20200212105134296_30163.png =1000x)
+![group_by_bwt](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/group_by_bwt.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/group_by_bwt.png" style="zoom:47%;">
+
 <blockquote>
-<p>OrderBY 只要没有跟 索引的顺序一致 <em>基本上都会产生filesort</em>，<code>除非</code>排序字段已经是一个常量了</p>
+<p>GroupBy，如果和索引的顺序不一样，分组之前必排序，会有<code>临时表</code>创建<br>定值为常量，范围之后失效，最终看排序，一般 <code>OrderBy</code> 是给个范围</p>
 </blockquote>
-<p>![](_v_images/20200212105134296_30163.png =1000x)</p>
-<blockquote>
-<p>GroupBy ：如果和索引的顺序不一样，<code>分组之前必排序</code>，会有<code>临时表</code>创建<br>定值为常量，范围之后失效，最终看排序，一般OrderBy 是给个范围</p>
-</blockquote>
-<p>![](_v_images/20200212105902621_9612.png =800x)</p>
+<!-- ![](_v_images/20200212105902621_9612.png =800x) -->
+<ul>
+<li>对于单键索引，尽量选择针对当前query过滤性更好的索引</li>
+<li>在选择组合索引的时候，当前Query中过滤性最好的字段在索引字段顺序中，位置越靠前越好。</li>
+<li>在选择组合索引的时候，尽量选择可以能够包含当前query中的where字句中更多字段的索引，尽可能通过分析统计信息和调格query的写法来达到选择合适索引的目的</li>
+</ul>
+<h4 id="小总结"><a href="#小总结" class="headerlink" title="小总结"></a>小总结</h4><!-- ![](MySQL.assets/20200212110832007_11172.png ) -->
+<!-- ![whrere_index](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/whrere_index.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/whrere_index.png" style="zoom:47%;">
+
+<!-- ![](MySQL.assets/20200212111058887_14977.png ) -->
+<p>【优化总结口诀】<br>全值匹配我最爱，最左前缀要遵守;<br>带头大哥不能死，中间兄弟不能断；<br>索引列上少计算，范围之后全失效；<br>LIKE百分写最右，覆盖素引不写星：<br>不等空值还有or，索引失效要少用：</p>
 <h2 id="查询截取分析"><a href="#查询截取分析" class="headerlink" title="查询截取分析"></a>查询截取分析</h2><ol start="0">
 <li>收到监控系统报警，模拟运行环境</li>
 <li>慢查询的开启和捕获</li>
@@ -1072,28 +1102,61 @@ EXPLAIN SELECT * FROM class LEFT JOIN book ON class.card=book.card LEFT JOIN pho
 <li>SQL数据服务器的参数调优</li>
 </ol>
 <h3 id="查询优化"><a href="#查询优化" class="headerlink" title="查询优化"></a>查询优化</h3><h4 id="永远小表驱动大表"><a href="#永远小表驱动大表" class="headerlink" title="永远小表驱动大表"></a>永远小表驱动大表</h4><blockquote>
-<p>数据库<strong>最耗费资源</strong>的是 <code>数据库连接</code> </p>
+<p>数据库<strong>最耗费资源</strong>的是 <code>数据库连接</code></p>
 </blockquote>
-<p>in 和 exist 的区别：</p>
-<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">#当 t_order表的数据集小于t_user表时,用 in 优化 exist,使用 in,两表执行顺序是先查 t_order 表,再查t_user表
-select * from t_user where id in (select user_id from t_order)
- 
-# 当 t_user 表的数据集小于 t_order 表时，用 exist 优化 in,使用 exists,两表执行顺序是先查 t_user  表,再查 t_order  表
-select * from t_user where exists (select 1 from B where t_order.user_id= t_user.id)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><code>in</code> 和 <code>exist</code> 的区别：</p>
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">#当t_order表的数据集 小于t_user表时, 用 in 优化 exist；使用in，两表执行顺序是先查 t_order 表,再查t_user表
 
+select * from t_user where id in (select user_id from t_order)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
+<pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql"># 当t_user表的数据集小于t_order表时，用 exist 优化 in；使用 exists，两表执行顺序是先查 t_user  表,再查 t_order 表
+select * from t_user where exists (select 1 from B where t_order.user_id= t_user.id)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
+<ul>
+<li>in，先往里层找</li>
+<li>exist，先往外层找</li>
+</ul>
+<h4 id="OrderBy-关键字优化"><a href="#OrderBy-关键字优化" class="headerlink" title="OrderBy 关键字优化"></a>OrderBy 关键字优化</h4><ul>
+<li>Index效率高：在MysQL扫描索引本身完成排序</li>
+<li>Filesort方式效率较低：不按照索引的排序，数据库<strong>内部</strong>再排序一次</li>
+</ul>
+<h5 id="最佳左前缀原则"><a href="#最佳左前缀原则" class="headerlink" title="最佳左前缀原则"></a>最佳左前缀原则</h5><p>ORDER BY子句，尽量使用Index方式排序，避免使用FileSort方式排序</p>
+<p>只要带头大哥在，按索引顺序 OrderBy：就不会Using filesort</p>
+<!-- ![](_v_images/20200212144703052_28776.png) -->
 
+<!-- ![](_v_images/20200212150838994_11693.png =800x) -->
 
-<h4 id="OrderBy-关键字优化"><a href="#OrderBy-关键字优化" class="headerlink" title="OrderBy 关键字优化"></a>OrderBy 关键字优化</h4><p><code>为排序使用索引</code></p>
-<h5 id="最佳左前缀原则"><a href="#最佳左前缀原则" class="headerlink" title="最佳左前缀原则"></a>最佳左前缀原则</h5><p>只要带头大哥在，按索引顺序OrderBy ==》就不会Using filesort<br><img src="/_v_images/20200212144703052_28776.png"></p>
-<p>![](_v_images/20200212150838994_11693.png =800x)<br>![](_v_images/20200212151104225_13825.png =800x)</p>
-<p>![](_v_images/20200212145538492_25910.png =900x)<br>![](_v_images/20200212150335520_22692.png =900x)</p>
+<!-- ![](_v_images/20200212151104225_13825.png =800x) -->
+<p>ORDER BY满足两情况，会使用 Index方式排序：</p>
+<ol>
+<li>ORDER BY语句使用索引最左前列</li>
+<li>使用Where子句与Order BY子句条件列组合满足素引最左前列</li>
+</ol>
+<!-- ![](_v_images/20200212145538492_25910.png =900x) -->
+<!-- ![order_by_exam1](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_exam1.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_exam1.png" style="zoom:47%;">
+
+<!-- ![](_v_images/20200212150335520_22692.png =900x)
+![order_by_exam2](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_exam2.png) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_exam2.png" style="zoom:47%;">
+
 <blockquote>
-<p><code>同升或者同降</code>==》Using Index</p>
+<p>同升或者同降：<code>Using Index</code></p>
 </blockquote>
-<h5 id="不在索引列上，filesort有两种算法"><a href="#不在索引列上，filesort有两种算法" class="headerlink" title="不在索引列上，filesort有两种算法"></a>不在索引列上，filesort有两种算法</h5><p>![](_v_images/20200212152710488_13085.png =1000x)</p>
-<p>![](_v_images/20200212153259857_16825.png =900x)</p>
+<!-- ##### 不在索引列上，filesort有两种算法 -->
+<!-- ![](_v_images/20200212152710488_13085.png =1000x) -->
+
+<!-- ![](_v_images/20200212153259857_16825.png =900x) -->
+
+<ol>
+<li>Order by时 <code>select *</code>，是一个大忌，只Query需要的字段，这点非常重要。在这里的影响是：<ol>
+<li>当Query的字段大小总和小于max_length_for_sort_data，而且排序宇段不是 TEXT｜BLOB 类型时，会用改进后的算法：单路排序，否则用老算法：多路排序</li>
+<li>两种算法的数据都有可能超出 <code>sort_buffer</code> 的容量，超出之后，会创建<code>tmp文件</code>进行合并排序，导致多次IO；但是用单路排序算法的风险会更大一些，所以要提高sort buffer_ size。</li>
+</ol>
+</li>
+<li>尝试提高 <code>sort_buffer_size</code>, 不管用哪种算法，提高这个参数都会提高效率，当然，要根据系统的能力去提高，因为这个参数是针对每个进程的。</li>
+<li>尝试提高 <code>max_length_for_sort_data</code>，提高这个参数，会增加用改进算法的概率。但是如果设的太高，数据总容量超出<code>sort_buffer_size</code>的概率就增大，明显症状是<strong>高磁盘IO活动</strong>和<strong>低处理器使用率</strong></li>
+</ol>
 <h5 id="小总结-1"><a href="#小总结-1" class="headerlink" title="小总结"></a>小总结</h5><p>![](_v_images/20200212154436922_18322.png =600x) </p>
 <h4 id="GroupBy-关键字优化"><a href="#GroupBy-关键字优化" class="headerlink" title="GroupBy 关键字优化"></a>GroupBy 关键字优化</h4><p>![](_v_images/20200212164205376_18576.png =700x)</p>
 <h3 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h3><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">slow_query_log
