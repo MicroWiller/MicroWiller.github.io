@@ -402,14 +402,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-11-12
+                    2022-11-25
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    10.7k
+                    11.3k
                 </div>
                 
 
@@ -1116,12 +1116,10 @@ select * from t_user where exists (select 1 from B where t_order.user_id= t_user
 <li>in，先往里层找</li>
 <li>exist，先往外层找</li>
 </ul>
-<h4 id="OrderBy-关键字优化"><a href="#OrderBy-关键字优化" class="headerlink" title="OrderBy 关键字优化"></a>OrderBy 关键字优化</h4><ul>
-<li>Index效率高：在MysQL扫描索引本身完成排序</li>
-<li>Filesort方式效率较低：不按照索引的排序，数据库<strong>内部</strong>再排序一次</li>
+<h4 id="OrderBy-优化"><a href="#OrderBy-优化" class="headerlink" title="OrderBy 优化"></a>OrderBy 优化</h4><ul>
+<li>Index: 效率高，在MysQL扫描索引本身完成排序</li>
+<li>Filesort: 方式效率较低，不按照索引的排序，数据库<strong>内部</strong>再排序一次</li>
 </ul>
-<h5 id="最佳左前缀原则"><a href="#最佳左前缀原则" class="headerlink" title="最佳左前缀原则"></a>最佳左前缀原则</h5><p>ORDER BY子句，尽量使用Index方式排序，避免使用FileSort方式排序</p>
-<p>只要带头大哥在，按索引顺序 OrderBy：就不会Using filesort</p>
 <!-- ![](_v_images/20200212144703052_28776.png) -->
 
 <!-- ![](_v_images/20200212150838994_11693.png =800x) -->
@@ -1140,15 +1138,12 @@ select * from t_user where exists (select 1 from B where t_order.user_id= t_user
 ![order_by_exam2](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_exam2.png) -->
 <img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/order_by_exam2.png" style="zoom:47%;">
 
-<blockquote>
-<p>同升或者同降：<code>Using Index</code></p>
-</blockquote>
 <!-- ##### 不在索引列上，filesort有两种算法 -->
 <!-- ![](_v_images/20200212152710488_13085.png =1000x) -->
 
 <!-- ![](_v_images/20200212153259857_16825.png =900x) -->
 
-<ol>
+<ul>
 <li>Order by时 <code>select *</code>，是一个大忌，只Query需要的字段，这点非常重要。在这里的影响是：<ol>
 <li>当Query的字段大小总和小于max_length_for_sort_data，而且排序宇段不是 TEXT｜BLOB 类型时，会用改进后的算法：单路排序，否则用老算法：多路排序</li>
 <li>两种算法的数据都有可能超出 <code>sort_buffer</code> 的容量，超出之后，会创建<code>tmp文件</code>进行合并排序，导致多次IO；但是用单路排序算法的风险会更大一些，所以要提高sort buffer_ size。</li>
@@ -1156,17 +1151,67 @@ select * from t_user where exists (select 1 from B where t_order.user_id= t_user
 </li>
 <li>尝试提高 <code>sort_buffer_size</code>, 不管用哪种算法，提高这个参数都会提高效率，当然，要根据系统的能力去提高，因为这个参数是针对每个进程的。</li>
 <li>尝试提高 <code>max_length_for_sort_data</code>，提高这个参数，会增加用改进算法的概率。但是如果设的太高，数据总容量超出<code>sort_buffer_size</code>的概率就增大，明显症状是<strong>高磁盘IO活动</strong>和<strong>低处理器使用率</strong></li>
+</ul>
+<!-- ![](_v_images/20200212154436922_18322.png =600x)  -->
+
+<p>实例：KEY a_b_c (a, b, c)</p>
+<p>order by 能使用素引最左前缀：</p>
+<ul>
+<li>ORDER BY a</li>
+<li>ORDER BY a,b</li>
+<li>ORDER BY a, b, c</li>
+<li>ORDER BY a DESC, b DESC, c DESC</li>
+</ul>
+<p>如果WHERE使用素引的最左前缀定义为常量，则order by能使用素引：</p>
+<ul>
+<li>WHERE a = const ORDER BY b, c</li>
+<li>WHERE a = const AND b = const ORDER BY c</li>
+<li>WHERE a = const ORDER BY b, c</li>
+<li>WHERE a = const AND b &gt; const ORDER BY b, c</li>
+</ul>
+<p>不能使用素引进行排序：</p>
+<ul>
+<li>ORDER BY a ASC. b DESC, C DESC  【排序不一致刘】</li>
+<li>WHERE g = const ORDER BY b, c 【丟失a索引】</li>
+<li>WHERE a = const ORDER BY C     【丟失b索引】</li>
+<li>WHERE a = const ORDER BY a, d 【d不是素引的一部分】</li>
+<li>WHERE a in (…) ORDER BY b, c  【对于排序来说，多个相等条件也是范围查询】</li>
+</ul>
+<blockquote>
+<p>ORDER BY子句，尽量使用Index方式排序，避免使用FileSort方式排序（同升或者同降：Using Index）；</p>
+<p>只要带头大哥在，按索引顺序 OrderBy：就不会Using filesort；</p>
+</blockquote>
+<h4 id="GroupBy-优化"><a href="#GroupBy-优化" class="headerlink" title="GroupBy 优化"></a>GroupBy 优化</h4><ol>
+<li>group by 实质是，先排序后分组，遵照索引建的最佳左前缀</li>
+<li>当无法使用索引列，增大max_length_for_sort_data 参数设置＋增大sort_buffer_size参数设置</li>
+<li>where高于having，能写在where限定的条件就不要去having限定</li>
 </ol>
-<h5 id="小总结-1"><a href="#小总结-1" class="headerlink" title="小总结"></a>小总结</h5><p>![](_v_images/20200212154436922_18322.png =600x) </p>
-<h4 id="GroupBy-关键字优化"><a href="#GroupBy-关键字优化" class="headerlink" title="GroupBy 关键字优化"></a>GroupBy 关键字优化</h4><p>![](_v_images/20200212164205376_18576.png =700x)</p>
 <h3 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h3><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup">slow_query_log
 long_query_time<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h4 id="是什么-2"><a href="#是什么-2" class="headerlink" title="是什么"></a>是什么</h4><p>![](_v_images/20200212164610612_8467.png =800x)</p>
-<h4 id="怎么玩-1"><a href="#怎么玩-1" class="headerlink" title="怎么玩"></a>怎么玩</h4><p>默认情况下：<br>![](_v_images/20200212164753463_8295.png =800x)</p>
-<p>开启慢查询日志：<br>![](_v_images/20200212165359146_10436.png =500x)<br>![](_v_images/20200212165651132_19359.png =800x)</p>
+<h4 id="是什么-2"><a href="#是什么-2" class="headerlink" title="是什么"></a>是什么</h4><!-- ![](_v_images/20200212164610612_8467.png =800x) -->
+<p>MysQL的慢查询日志是MySQL提供的一种日志记录，它用来记录在MySQL中响应时间超过阀值的语句，具体指运行时间超过long_query_time值的SQL，则会被记录到慢查询日志中。</p>
+<p>具体指运行时间超过long_query_time值的SQL，则会被记录到慢查询日志中。long_query_time的默认值为10，意思是运行10秒以上的语句。</p>
+<p>由此来查看哪些SQL超出了我们的最大忍耐时间值，比如一条sql执行超过5秒钟，我们就算慢SQL，希望收集超过5秒的sql，结合之前explain进行全面分析。</p>
+<h4 id="怎么玩-1"><a href="#怎么玩-1" class="headerlink" title="怎么玩"></a>怎么玩</h4><p>默认情况下，MySQL数据库没有开启慢查询日志，需要我们手动来设置这个参数。</p>
+<p>当然，如果不是调优需要的话，一般不建议启动该参数，因为开启慢查询日志或多或少会带来一定的性能影响。</p>
+<p>查询日志支持将日志记录写入文件。</p>
+<!-- ![](_v_images/20200212164753463_8295.png =800x) -->
+
+<p>开启慢查询日志：</p>
+<!-- ![slow_query_log](https://gcore.jsdelivr.net/gh/MicroWiller/photobed/slow_query_log.png) -->
+<!-- ![](_v_images/20200212165359146_10436.png =500x) -->
+<img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/slow_query_log.png" style="zoom:47%;">
+
+<!-- ![](_v_images/20200212165651132_19359.png =800x) -->
+
+<p>如果要永久生效，就必须修改配置文件my.cnf（其他系统变量也是如此）<br>slow_query_log =1<br>slow_query_log_file=/var/lib/mysql/slow.log</p>
+<blockquote>
+<p>关于慢查询的参数slow_query_log_file，它指定慢查询日志文件的存放路径，系统默认会给一个缺省的文件host_ name-slow.log（如果没有指定参数slow_query_log_file的话）</p>
+</blockquote>
 <p>修改默认的阀值：<br>![](_v_images/20200212165930411_28712.png =600x)</p>
 <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">set global long_query_time = 3;    // 修改为阀值到3秒的就是慢SQL<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p>![](_v_images/20200212170629890_11886.png =600x)</p>
 <p>记录慢SQL并后续分析：<br>![](_v_images/20200212171247138_13935.png =800x)</p>
 <pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">show global status like '%Slow_queries%';    // 查询当前系统中有多少条慢查询记录<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
