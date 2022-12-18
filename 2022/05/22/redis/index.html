@@ -406,7 +406,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-16
+                    2022-12-18
                 </div>
                 
 
@@ -761,20 +761,22 @@ Map&lt;string, value&gt;;
 </ul>
 </li>
 </ul>
-<h2 id="缓存过期-x2F-内存淘汰"><a href="#缓存过期-x2F-内存淘汰" class="headerlink" title="缓存过期/内存淘汰"></a>缓存过期/内存淘汰</h2><p><a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=59#/detail/pc?id=1779">过期淘汰策略和内存淘汰策略有什么区别</a>	</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyNjMxOTY0NA==&amp;mid=2247486528&amp;idx=1&amp;sn=3f7b09eb21969fdb16f5b0805ff69fed&amp;scene=21#wechat_redirect">个中原由</a>	</p>
-<h3 id="过期淘汰策略"><a href="#过期淘汰策略" class="headerlink" title="过期淘汰策略"></a>过期淘汰策略</h3><p><strong>新增</strong> Redis 缓存时可以<strong>设置缓存的过期时间</strong>，该时间保证了数据在规定的时间内失效，可以借助这个特性来实现很多功能</p>
+<h2 id="缓存过期-x2F-内存淘汰"><a href="#缓存过期-x2F-内存淘汰" class="headerlink" title="缓存过期/内存淘汰"></a>缓存过期/内存淘汰</h2><p><a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=59#/detail/pc?id=1779">过期淘汰策略和内存淘汰策略有什么区别</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/DQWERww/article/details/126453008">redis的删除策略</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyNjMxOTY0NA==&amp;mid=2247486528&amp;idx=1&amp;sn=3f7b09eb21969fdb16f5b0805ff69fed&amp;scene=21#wechat_redirect">个中原由</a></p>
+<h3 id="过期淘汰策略"><a href="#过期淘汰策略" class="headerlink" title="过期淘汰策略"></a>过期淘汰策略</h3><p>原因：</p>
+<p><strong>新增</strong> Redis 缓存时可以<strong>设置缓存的过期时间</strong>，该时间保证了数据在规定的时间内失效，可以借助这个特性来实现很多功能</p>
 <ul>
 <li>超时时间有了，该在什么时候去干这个清理的活呢？ ？</li>
 <li>不能一口气把所有过期的都给删除掉，redis里面存了大量的数据，要全面扫一遍的话那不知道要花多久时间，会严重影响接待新的客户请求！！</li>
 </ul>
 <p>时间紧任务重，只好随机选择一部分来清理，能缓解内存压力就行！！！</p>
-<p><strong>缓存过期策略：</strong></p>
-<ul>
-<li>惰性删除： 原来逃脱了redis 随机选择算法的键值，*<u>一旦遇到查询请求，被发现已经超期了，立即删除</u>*； 是被动式触发的，不查询就不会发生；导致缓存中出现<code>大量的过期key无法被删除</code></li>
-<li>定时删除：为每个设置了过期时间的key，都需要*<u>创建一个定时器，到过期时间就会立即清除</u>*；但需要消耗大量的CPU资源去清除过期的数据，<code>可能会影响缓存服务的性能</code> </li>
-<li>定期过期：添加一个<code>即将过期的缓存字典</code>，*<u>每隔一定的时间，会扫描一定数量的key</u>*，并清除其中已过期的key</li>
-</ul>
+<p>策略：</p>
+<ol>
+<li>定时删除：为每个设置了过期时间的key，都需要*<u>创建一个定时器，到过期时间就会立即清除</u>*；但需要消耗大量的CPU资源去清除过期的数据，<code>可能会影响缓存服务的性能</code></li>
+<li>惰性删除： 原来逃脱了redis 随机选择算法的键值，<u>一旦遇到查询请求，被发现已经超期了，立即删除</u>； 是被动式触发的，不查询就不会发生；导致缓存中出现<code>大量的过期key无法被删除</code></li>
+<li>定期删除：添加一个<code>即将过期的缓存字典</code>，<u>每隔一定的时间，会扫描一定数量的key</u>，并清除其中已过期的key</li>
+</ol>
 <h3 id="内存淘汰策略"><a href="#内存淘汰策略" class="headerlink" title="内存淘汰策略"></a>内存淘汰策略</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># 查看当前 Redis 的内存淘汰策略
 config get maxmemory-policy
 
@@ -782,28 +784,27 @@ config get maxmemory-policy
 config set maxmemory-policy noeviction
 # 也可以通过配置文件来修改，redis.conf 对应的配置项是“maxmemory-policy noeviction”<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-
-
 <ul>
 <li>noeviction：不淘汰任何数据，当内存不足时，执行缓存新增操作会报错，它是 Redis 默认内存淘汰策略</li>
-<li>allkeys-lru：淘汰整个键值中最久未使用的键值</li>
 <li>allkeys-random：随机淘汰任意键值</li>
-<li>volatile-lru：淘汰所有设置了过期时间的键值中最久未使用的键值</li>
 <li>volatile-random：随机淘汰设置了过期时间的任意键值</li>
+<li>allkeys-lru：淘汰整个键值中最久未使用的键值</li>
+<li>volatile-lru：淘汰所有设置了过期时间的键值中最久未使用的键值</li>
 <li>volatile-ttl：优先淘汰更早过期的键值</li>
 <li>volatile-lfu，淘汰所有设置了过期时间的键值中最少使用的键值</li>
 <li>allkeys-lfu，淘汰整个键值中最少使用的键值</li>
 </ul>
+<p>注：LFU在4.0后添加的</p>
 <blockquote>
 <p>小贴士：从以上内存淘汰策略中可以看出，allkeys-xxx 表示从所有的键值中淘汰数据，而 volatile-xxx 表示从设置了过期键的键值中淘汰数据。</p>
 </blockquote>
-<p><strong>内存淘汰算法：</strong> </p>
+<p>内存淘汰算法：</p>
 <p>LRU（ Least Recently Used，最近最少使用）淘汰算法：是一种常用的页面置换算法，也就是说<code>最久没有使用</code>的缓存将会被淘汰</p>
-<p>LFU（Least Frequently Used，最不常用的）淘汰算法：最不常用的算法是根据<code>总访问次数</code>来淘汰数据的，它的核心思想是***<u>“如果数据过去被访问多次，那么将来被访问的频率也更高”</u>***。</p>
+<p>LFU（Least Frequently Used，最不常用的）淘汰算法：最不常用的算法是根据<code>总访问次数</code>来淘汰数据的，它的核心思想是<u>“如果数据过去被访问多次，那么将来被访问的频率也更高”</u>。</p>
 <p>LFU 相对来说比 LRU 更“智能”，因为它解决了使用频率很低的缓存，只是最近被访问了一次就不会被删除的问题。</p>
-<p>LRU？？可以继承 LinkedHashMap来实现</p>
-<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p><a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=59#/detail/pc?id=1782">高可用</a>	</p>
-<h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyNjMxOTY0NA==&amp;mid=2247486926&amp;idx=1&amp;sn=58e99f81d6d6ee31c9a5c8f93122e108&amp;scene=21#wechat_redirect">RDB / AOF</a>	</p>
+<h2 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h2><p><a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=59#/detail/pc?id=1782">高可用</a></p>
+<h3 id="数据持久化"><a href="#数据持久化" class="headerlink" title="数据持久化"></a>数据持久化</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyNjMxOTY0NA==&amp;mid=2247486926&amp;idx=1&amp;sn=58e99f81d6d6ee31c9a5c8f93122e108&amp;scene=21#wechat_redirect">RDB / AOF</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/YMWH/articles/16526724.html">混合模式</a></p>
 <h4 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h4><p>Redis DataBase（<strong>快照</strong>方式）：按照一定的 <u><em>时间周期策略</em></u> 把内存的数据以快照的形式保存到硬盘的二进制文件。</p>
 <p>实现：</p>
 <ol>
@@ -1076,11 +1077,12 @@ public static boolean unLock(Jedis jedis, String lockKey, String flagId) {
 
 
 <p>六、</p>
-<p>锁超时可以通过两种方案来解决：</p>
-<ul>
+<p>锁超时可以通过以下方案来解决：</p>
+<ol>
 <li>把执行耗时的方法从锁中剔除，减少锁中代码的执行时间，保证锁在超时之前，代码一定可以执行完；</li>
-<li>把锁的超时时间设置的长一些，正常情况下我们在使用完锁之后，会调用删除的方法手动删除锁，因此可以把超时时间设置的稍微长一些。</li>
-</ul>
+<li>把锁的超时时间设置的长一些，正常情况下我们在使用完锁之后，会调用删除的方法手动删除锁，因此可以把超时时间设置的稍微长一些；</li>
+<li>续超时时间，在删除锁前，判断是否执行完分布式锁的逻辑；若还没有执行完，续约超时时间。</li>
+</ol>
 <h2 id="Redis-实现消息队列"><a href="#Redis-实现消息队列" class="headerlink" title="Redis 实现消息队列"></a>Redis 实现消息队列</h2><p><a target="_blank" rel="noopener" href="https://kaiwu.lagou.com/course/courseInfo.htm?courseId=59#/detail/pc?id=1781">Redis如何实现消息队列？？实现的方式有几种？？</a>	</p>
 <table>
 <thead>
