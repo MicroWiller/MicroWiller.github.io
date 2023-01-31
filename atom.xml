@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>凌波威步～</title>
   
-  <subtitle>诗和远方</subtitle>
+  <subtitle>凌波威步～</subtitle>
   <link href="https://microwiller.github.io/atom.xml" rel="self"/>
   
   <link href="https://microwiller.github.io/"/>
-  <updated>2022-11-25T12:13:10.277Z</updated>
+  <updated>2023-01-31T07:49:08.735Z</updated>
   <id>https://microwiller.github.io/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java &amp; Golang</title>
+    <link href="https://microwiller.github.io/2023/01/31/java-golang/"/>
+    <id>https://microwiller.github.io/2023/01/31/java-golang/</id>
+    <published>2023-01-31T07:47:14.000Z</published>
+    <updated>2023-01-31T07:49:08.735Z</updated>
+    
+    
+    
+    
+    
+    <category term="java" scheme="https://microwiller.github.io/tags/java/"/>
+    
+    <category term="go" scheme="https://microwiller.github.io/tags/go/"/>
+    
+  </entry>
   
   <entry>
     <title>mysql</title>
@@ -99,7 +116,7 @@
     <link href="https://microwiller.github.io/2022/05/22/redis/"/>
     <id>https://microwiller.github.io/2022/05/22/redis/</id>
     <published>2022-05-22T14:07:37.000Z</published>
-    <updated>2022-12-18T03:09:39.794Z</updated>
+    <updated>2023-01-31T07:43:28.961Z</updated>
     
     
       
@@ -126,7 +143,7 @@
     <link href="https://microwiller.github.io/2022/05/22/go/"/>
     <id>https://microwiller.github.io/2022/05/22/go/</id>
     <published>2022-05-22T07:16:36.000Z</published>
-    <updated>2022-10-09T02:44:55.652Z</updated>
+    <updated>2023-01-31T08:12:02.306Z</updated>
     
     
       
@@ -153,7 +170,7 @@
     <link href="https://microwiller.github.io/2022/05/22/shell/"/>
     <id>https://microwiller.github.io/2022/05/22/shell/</id>
     <published>2022-05-22T07:16:36.000Z</published>
-    <updated>2022-05-23T14:32:39.385Z</updated>
+    <updated>2023-01-31T07:43:15.883Z</updated>
     
     
       
