@@ -406,7 +406,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2023-04-20
+                    2023-11-03
                 </div>
                 
 
@@ -502,7 +502,6 @@ ps -Lfp pid
 
 # 后台运行程序，关掉当前shell仍然可以执行
 ./hello.sh &amp; disown<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 
 <h4 id="文件校验及查找"><a href="#文件校验及查找" class="headerlink" title="文件校验及查找"></a>文件校验及查找</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"># sha1 文件校验
 sha1sum 文件名<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
@@ -613,15 +612,13 @@ systemctl restart sshd<span aria-hidden="true" class="line-numbers-rows"><span><
 <li>top </li>
 <li>uptime，系统性能命令的精简版</li>
 </ul>
-<h4 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h4><ul>
-<li><p>vmstat -n 2 3    每两秒采样一次，共计采样三次</p>
+<h4 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h4><p><img src="https://raw.githubusercontent.com/MicroWiller/photobed/main/vmstat.png" alt="vmstat"></p>
 <ul>
-<li><p>procs：</p>
-<ul>
+<li>vmstat -n 2 3    每两秒采样一次，共计采样三次<ul>
+<li>procs：<ul>
 <li>r：<code>运行/等待CPU时间片的进程数</code>，原则上1核的CPU运行队列不要超过2，整个系统的运行队列不能超过 2*总核数</li>
+<li>b：<code>等待资源的进程数</code>，比如正在等待磁盘I/O 、网络I/O等</li>
 </ul>
-</li>
-<li><p>b：<code>等待资源的进程数</code>，比如正在等待磁盘I/O 、网络I/O等</p>
 </li>
 </ul>
 </li>
