@@ -406,7 +406,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-10-06
+                    2024-10-07
                 </div>
                 
 
@@ -438,7 +438,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>我们在处理⽹络问题时，经常处理的是 _I/O 问题_，即输⼊和输出；说⽩了就是，如何把⽹卡收到的数据给到指定的程序，程序如何将数据拷⻉到⽹卡。 所以，当数据到达⽹卡之后，操作系统会做哪些操作？程序⼜是怎么接收到的数据呐？</p>
+                <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>我们在处理⽹络问题时，经常处理的是 _I/O 问题_，即输⼊和输出；说⽩了就是，如何把⽹卡收到的数据给到指定的程序，程序如何将数据拷⻉到⽹卡。 所以，当数据到达⽹卡之后，操作系统会做哪些操作？程序⼜是怎么接收到的数据呐？</p>
 <h2 id="从⽹卡到操作系统"><a href="#从⽹卡到操作系统" class="headerlink" title="从⽹卡到操作系统"></a>从⽹卡到操作系统</h2><p><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/networkCardToProcess.png" alt="networkCardToProcess"></p>
 <p>从上图可以看出，Frames（传⼊⽹卡的数据这⾥抽象为Frames，⼀个 Frame 是<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82">数据链路层</a>的传输单位或封包）到达⽹卡之后，⾸先需要把数据拷⻉到内存；⽤户进程的访问，需要再拷⻉⼀次。</p>
 <p>注意，将数据从内存中的⼀个区域拷⻉到另⼀个区域，这是⼀个 CPU 密集型操作。数据的拷⻉, 归根结底要⼀个字节⼀个字节去做。</p>
@@ -819,7 +819,7 @@ while(true) {
 <li>内部使⽤红⿊树减少了内核的⽐较操作；</li>
 <li>对程序员⽽⾔，⾮阻塞的模型更容易处理各种各样的情况。程序员习惯了写出每⼀条语句就可以⻢上得到结果，这样不容易出 Bug。</li>
 </ol>
-<h2 id="I-x2F-O-模型"><a href="#I-x2F-O-模型" class="headerlink" title="I/O 模型"></a>I/O 模型</h2><p>从以上可知，select/poll 是<code>阻塞模型</code>，epoll 是<code>⾮阻塞模型</code>，阻塞和⾮阻塞强调的是 _线程的状态_。</p>
+<h2 id="I-x2F-O-模型"><a href="#I-x2F-O-模型" class="headerlink" title="I/O 模型"></a>I/O 模型</h2><h3 id="阻塞-amp-非阻塞"><a href="#阻塞-amp-非阻塞" class="headerlink" title="阻塞&amp;非阻塞"></a>阻塞&amp;非阻塞</h3><p>从以上可知，select/poll 是<code>阻塞模型</code>，epoll 是<code>⾮阻塞模型</code>，阻塞和⾮阻塞强调的是 _线程的状态_。</p>
 <p>BIO（Blocking I/O，阻塞 I/O），API 的设计会阻塞程序调⽤。⽐如：</p>
 <pre class="line-numbers language-c" data-language="c"><code class="language-c">byte a = readKey()<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -831,7 +831,7 @@ while(true) {
 
 <p>假设readKey⽅法从键盘读取⼀个按键，如果是⾮阻塞 I/O 的设计，readKey不会阻塞当前的线程。</p>
 <p>有同学可能会问：那如果⽤户没有按键怎么办？在阻塞 I/O 的设计中，如果⽤户没有按键线程会阻塞等待⽤户按键，在 ⾮阻塞 I/O 的设计中，线程不会阻塞，没有按键会返回⼀个空值，⽐如 null。</p>
-<p>还有⼀组概念是同步（Synchrounous）和异步（Asynchrounous），select/poll/epoll 三者都是同步调⽤。</p>
+<h3 id="同步-amp-异步"><a href="#同步-amp-异步" class="headerlink" title="同步&amp;异步"></a>同步&amp;异步</h3><p>还有⼀组概念是同步（Synchrounous）和异步（Asynchrounous），select/poll/epoll 三者都是同步调⽤。</p>
 <p>同步强调的是<strong>顺序</strong>，所谓同步调⽤，就是可以确定程序执⾏的顺序的调⽤。⽐如说执⾏⼀个调⽤，知道调⽤返回之前下⼀⾏代码不会执⾏。这种顺序是确定的情况，就是同步。</p>
 <p>⽽异步调⽤则恰恰相反，异步调⽤不明确执⾏顺序。</p>
 <p>AIO（Asynchronous I/O， 异步 I/O），API 的设计会多 _创造⼀条时间线_。⽐如：</p>
@@ -844,7 +844,7 @@ readKey( callBackFunction )<span aria-hidden="true" class="line-numbers-rows"><s
 <p>在异步 I/O 中，readKey⽅法会直接返回，但是没有结果。结果需要⼀个回调函数 callBackFunction 去接收。</p>
 <p>从这个 ⻆度看，其实有两条时间线。第⼀条是程序的<strong>主⼲时间线</strong>，readKey的执⾏和readKey下⽂的程序都在这条主⼲时间线 中。</p>
 <p>⽽callBackFunction的执⾏会在⽤户按键时触发，也就是时间不确定，因此callBackFunction中的程序是另⼀条时间线也是基于这种原因产⽣的，我们称作<code>异步</code>，异步描述的就是这种时间线上⽆法同步的现象，你不知道callbackFunc tion何时会执⾏。</p>
-<p>但是我们通常说某某语⾔提供了异步 I/O，不仅仅是说提供上⾯程序这种写法，上⾯的写法会产⽣⼀个叫作<code>回调地狱</code>的问题，本质是异步程序的时间线错乱，导致维护成本较⾼。</p>
+<h3 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h3><p>但是我们通常说某某语⾔提供了异步 I/O，不仅仅是说提供上⾯程序这种写法，上⾯的写法会产⽣⼀个叫作<code>回调地狱</code>的问题，本质是异步程序的时间线错乱，导致维护成本较⾼。</p>
 <pre class="line-numbers language-Java" data-language="Java"><code class="language-Java">request("/order/123", (data1) -&gt; {
  //..
  request("/product/456", (data2) -&gt; {
@@ -878,11 +878,11 @@ sku = future3.get()<span aria-hidden="true" class="line-numbers-rows"><span></sp
 })
 // 100 ms 后到这里<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>总结下，操作系统给我们提供了各种各样的 API，是希望满⾜各种各样程序架构的诉求。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>操作系统给我们提供了各种各样的 API，是希望满⾜各种各样程序架构的诉求。</p>
 <p>但总体诉求其实是⼀致的：希望程序员写的单机代码，能够在多线程甚⾄分布式的环境下执⾏。这样就不需要再去学习复杂的<code>并发控制算法</code>。</p>
 <p>从这个⻆度去看，⾮阻塞加上同步的编程模型确实省去了编程过程当中的很多思考，符合我们的思维模式。</p>
 <p>到这里，我们已经知道，服务可以确定是哪个Socket连接传输过来的了；那数据传输，数据⼜是怎么进⾏传输的呐？</p>
-<h2 id="流、缓冲区"><a href="#流、缓冲区" class="headerlink" title="流、缓冲区"></a>流、缓冲区</h2><p>数据传输，实际上就是数据从⼀个地⽅到另⼀个地⽅。</p>
+<h2 id="流"><a href="#流" class="headerlink" title="流"></a>流</h2><p>数据传输，实际上就是数据从⼀个地⽅到另⼀个地⽅。</p>
 <p>将数据抽象出来，类⽐为⽔，⽔从⼀个地⽅流到另⼀个地⽅，数据也是从⼀个地⽅流到另⼀个地⽅；不过⽔的流是动词，_⽽数据的流，是内存中的⼀个<code>对象</code>，⼀个<code>结构</code>_。</p>
 <p>当⽤户读取⽂件内容的时候，通过流进⾏读取，看上去好像从流中读取了数据，⽽本质上读取的是⽂件的数据。</p>
 <p>从这个⻆度去观察整体的设计，数据从⽂件到了流，然后再到了⽤户线程，数据是经过流的。所以，_流也代表数据_，具体来说 是随着时间产⽣的数据。</p>
@@ -890,7 +890,7 @@ sku = future3.get()<span aria-hidden="true" class="line-numbers-rows"><span></sp
 <p>可以的，流对象中只设计⼀个整数型指针，⼀开始指向⽂件的头部，每次发⽣读取，都从⽂件中读出内容，然后再返回给⽤户线程。做完这次操作，指针⾃增。</p>
 <p>通过这样的设计，流中就不需要再有数据了。可⻅，流中不⼀定要有数据。<br><img src="https://gcore.jsdelivr.net/gh/MicroWiller/photobed/steam_data.png" alt="steam_data"></p>
 <p>如上图，把⽂件看作是⼀系列线性排列连续字节的合集，⽤户线程调⽤流对象的读取数据⽅法，每次从⽂件中读取⼀个字节。流中只保留⼀个读取位置 position，指向下⼀个要读取的字节。</p>
-<p>看上去这个⽅案可⾏，但实际上性能极差。因为从⽂件中读取数据这个操作，是⼀次磁盘的 I/O 操作，⾮常耗时。</p>
+<h2 id="缓冲区"><a href="#缓冲区" class="headerlink" title="缓冲区"></a>缓冲区</h2><p>上面的方案看上去可⾏，但实际上性能极差。因为从⽂件中读取数据这个操作，是⼀次磁盘的 I/O 操作，⾮常耗时。</p>
 <p>正确的做法是每次读取 <strong>2k</strong>、<strong>4k</strong> 这样⼤⼩的数据，这是因为操作系统中的<code>内存分⻚</code>通常是这样的⼤⼩，_⽽磁盘的读写往往是会适配⻚表⼤⼩_。</p>
 <p>⽽且现在的⽂件系统主要都是<code>⽇志⽂件系统</code>，存储的并不是原始数据本身；也就是说，多数情况下，你看到的⽂件并不是⼀个连续紧密的字节线性排列，⽽是⽇志。</p>
 <p>简单来说，就是你向磁盘读取 2k 数据，读取到的不⼀定是 2k 实际的数据，很有可能会⽐ 2k 少，这是因为⽂件内容是以⽇志形式存储，会有冗余。</p>
